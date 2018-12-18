@@ -1,0 +1,29 @@
+Instalar wammp
+Configurar ip fija en el panel de control
+
+servidor dns 8.8.8.8
+dns alternativo 8.8.4.4
+
+agregar alias desde panel de conbtrol wammp
+-Nombrar el alias
+-Definir ruta (C:/wamp64/www/) dentro de la carpeta
+
+Editar httpd.conf
+ctrl+b para buscar online y editar
+
+#Require local
+Require all granted
+
+editar phpmyadmin.conf
+
+#Require local
+Require all granted
+
+ingresar al alias directorio y modificar
+http://localhost/shilohtex
+
+
+#Require local
+Require all granted
+
+
