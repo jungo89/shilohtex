@@ -194,35 +194,3 @@ Private Sub CommandButton3_Click()
 End Sub
 
 
-sub conectar()
-    Dim Conn As ADODB.Connection
-    Dim MiConexion
-    
-    Dim MiBase As String
-
-    MiBase = "cotizador.accdb"
-
-    Set Conn = New ADODB.Connection
-    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
-
-    With Conn
-        .Provider = "Microsoft.ACE.OLEDB.12.0"
-        .Open MiConexion
-    End With
-
-    
-end sub
-
-sub grabar()
-
-Dim Rs As ADODB.Recordset
-
-Set Rs = New ADODB.Recordset
-    Rs.CursorLocation = adUseServer
-    Rs.Open Source:="MiTabla", _
-        ActiveConnection:=Conn, _
-        CursorType:=adOpenDynamic, _
-        LockType:=adLockOptimistic, _
-        Options:=adCmdTable
-
-end sub
