@@ -5,7 +5,7 @@ private pIdPedido as integer
 private pIdProducto as integer
 private pCantidad as double
 private pPrecio as currency
-private pDescuento as currency
+private pFlete as currency
 private pIdSituacion as integer
 private pFechaAsignacion as date
 private pIdPedidoCompra as integer
@@ -51,12 +51,12 @@ Public Property get Precio() as currency
     Precio = pPrecio
 End Property
 
-Public Property let Descuento (Value as currency)
-    pDescuento = Value
+Public Property let Flete (Value as currency)
+    pFlete = Value
 End Property
 
-Public Property get Descuento() as currency
-    Descuento = pDescuento
+Public Property get Flete() as currency
+    Flete = pFlete
 End Property
 
 Public Property let IdSituacion (Value as integer)
@@ -100,7 +100,7 @@ Public Sub RegistrarDetallesDePedido()
     ActiveCell.Offset(0, 2).value = Me.IdProducto
     ActiveCell.Offset(0, 3).value = Me.Cantidad
     ActiveCell.Offset(0, 4).value = Me.Precio
-    ActiveCell.Offset(0, 5).value = Me.Descuento
+    ActiveCell.Offset(0, 5).value = Me.Flete
     ActiveCell.Offset(0, 6).value = Me.IdSituacion
     ActiveCell.Offset(0, 7).value = Me.FechaAsignacion
     ActiveCell.Offset(0, 8).value = Me.IdPedidoCompra
