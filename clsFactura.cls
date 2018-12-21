@@ -4,8 +4,9 @@ private pId as integer
 private pIdPedido as integer
 private pFecha as date
 private pFechaVencimiento as date
-private pImpuestos as currency
-private pEnvio as currency
+private pReteFuente as currency
+private pReteica as currency
+private pIva as currency
 private pImporteDebido as currency
 private pInteres as double
 
@@ -41,20 +42,28 @@ Public Property get FechaVencimiento() as date
     FechaVencimiento = pFechaVencimiento
 End Property
 
-Public Property let Impuestos (Value as currency)
-    pImpuestos = Value
+Public Property let ReteFuente (Value as currency)
+    pReteFuente = Value
 End Property
 
-Public Property get Impuestos() as currency
-    Impuestos = pImpuestos
+Public Property get ReteFuente() as currency
+    ReteFuente = pReteFuente
 End Property
 
-Public Property let Envio (Value as currency)
-    pEnvio = Value
+Public Property let ReteIca (Value as currency)
+    pReteIca = Value
 End Property
 
-Public Property get Envio() as currency
-    Envio = pEnvio
+Public Property get ReteIca() as currency
+    ReteIca = pReteIca
+End Property
+
+Public Property let Iva (Value as currency)
+    pIva = Value
+End Property
+
+Public Property get Iva() as currency
+    Iva = pIva
 End Property
 
 Public Property let ImporteDebido (Value as currency)
@@ -81,8 +90,9 @@ Public Sub RegistrarFactura()
     ActiveCell.Offset(0, 1).value = Me.IdPedido
     ActiveCell.Offset(0, 2).value = Me.Fecha
     ActiveCell.Offset(0, 3).value = Me.FechaVencimiento
-    ActiveCell.Offset(0, 4).value = Me.Impuestos
-    ActiveCell.Offset(0, 5).value = Me.Envio
-    ActiveCell.Offset(0, 6).value = Me.ImporteDebido
-    ActiveCell.Offset(0, 7).value = Me.Interes
+    ActiveCell.Offset(0, 4).value = Me.ReteFuente
+    ActiveCell.Offset(0, 5).value = Me.ReteIca
+    ActiveCell.Offset(0, 6).value = Me.Iva
+    ActiveCell.Offset(0, 7).value = Me.ImporteDebido
+    ActiveCell.Offset(0, 8).value = Me.Interes
 End Sub

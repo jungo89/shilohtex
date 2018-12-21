@@ -10,8 +10,7 @@ private pFechaDeEnvio as date
 private pNombreDeEnvio as string
 private pDireccionDeEnvio as string
 private pCiudadDestino as string
-private pGastosDeEnvio as currency
-private pImpuestos as currency
+private pTotalFletes as currency
 private pTipoDePago as integer
 private pFechaDePago as date
 private pPrioridad as string
@@ -98,20 +97,12 @@ Public Property get CiudadDestino() as string
     CiudadDestino = pCiudadDestino
 End Property
 
-Public Property let GastosDeEnvio (Value as currency)
-    pGastosDeEnvio = Value
+Public Property let TotalFletes (Value as currency)
+    pTotalFletes = Value
 End Property
 
-Public Property get GastosDeEnvio() as currency
-    GastosDeEnvio = pGastosDeEnvio
-End Property
-
-Public Property let Impuestos (Value as currency)
-    pImpuestos = Value
-End Property
-
-Public Property get Impuestos() as currency
-    Impuestos = pImpuestos
+Public Property get TotalFletes() as currency
+    TotalFletes = pTotalFletes
 End Property
 
 Public Property let TipoDePago (Value as integer)
@@ -168,10 +159,9 @@ Public Sub RegistrarPedido()
     ActiveCell.Offset(0, 7).value = Me.NombreDeEnvio
     ActiveCell.Offset(0, 8).value = Me.DireccionDeEnvio
     ActiveCell.Offset(0, 9).value = Me.CiudadDestino
-    ActiveCell.Offset(0, 10).value = Me.GastosDeEnvio
-    ActiveCell.Offset(0, 11).value = Me.Impuestos
-    ActiveCell.Offset(0, 12).value = Me.TipoDePago
-    ActiveCell.Offset(0, 13).value = Me.FechaDePago
-    ActiveCell.Offset(0, 14).value = Me.Prioridad
-    ActiveCell.Offset(0, 15).value = Me.Notas
-    ActiveCell.Offset(0, 16).value = Me.EstadoDeImpuestos
+    ActiveCell.Offset(0, 10).value = Me.TotalFletes
+    ActiveCell.Offset(0, 11).value = Me.TipoDePago
+    ActiveCell.Offset(0, 12).value = Me.FechaDePago
+    ActiveCell.Offset(0, 13).value = Me.Prioridad
+    ActiveCell.Offset(0, 14).value = Me.Notas
+    ActiveCell.Offset(0, 15).value = Me.EstadoDeImpuestos

@@ -16,6 +16,7 @@ private pCupo as currency
 private pCredito as currency
 private pSaldo as currency
 private pCategoria as string
+private pTipoContribuyente as string
 
 'propiedad de escritura
 Public Property Let Id(value As integer)
@@ -139,6 +140,14 @@ Public Property get Categoria() as string
     Categoria = pCategoria
 End Property
 
+Public Property let TipoContribuyente (Value as string)
+    pTipoContribuyente = Value
+End Property
+
+Public Property get TipoContribuyente() as string
+    TipoContribuyente = pTipoContribuyente
+End Property
+
 Public Sub RegistrarCliente()
 'fila vacia por debajo del último registro del listado
     Hoja1.select 'Clientes
@@ -158,4 +167,5 @@ Public Sub RegistrarCliente()
     ActiveCell.Offset(0, 12).value= Me.Credito
     ActiveCell.Offset(0, 13).value = Me.Saldo
     ActiveCell.Offset(0, 14).value = Me.Categoria
+    ActiveCell.Offset(0, 15).value = Me.TipoContribuyente
 End Sub

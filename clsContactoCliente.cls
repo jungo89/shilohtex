@@ -4,6 +4,7 @@ private pId as integer
 private pIdCliente as integer
 private pTelefono as string
 private pDireccion as string
+private pCorreo as string
 private pBarrio as string
 private pCiudad as string
 
@@ -39,6 +40,14 @@ Public Property get Direccion() as string
     Direccion = pDireccion
 End Property
 
+Public Property let Correo (Value as string)
+    pCorreo = Value
+End Property
+
+Public Property get Correo() as string
+    Correo = pCorreo
+End Property
+
 Public Property let Barrio (Value as string)
     pBarrio = Value
 End Property
@@ -63,6 +72,7 @@ Public Sub RegistrarContactoCliente()
     ActiveCell.Offset(0, 1).value = Me.IdCliente
     ActiveCell.Offset(0, 2).value = Me.Telefono
     ActiveCell.Offset(0, 3).value = Me.Direccion
-    ActiveCell.Offset(0, 4).value = Me.Barrio
-    ActiveCell.Offset(0, 5).value = Me.Ciudad
+    ActiveCell.Offset(0, 4).value = Me.Correo
+    ActiveCell.Offset(0, 5).value = Me.Barrio
+    ActiveCell.Offset(0, 6).value = Me.Ciudad
 End Sub
