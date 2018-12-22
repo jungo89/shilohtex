@@ -177,7 +177,7 @@ sub FiltrarAccess()
     Rs.Open Source:=Query, _
     ActiveConnection:=Conn
 
-    'Valir si la consulta devuelve resultados
+    'Validar si la consulta devuelve resultados
     If Rs.EOF And Rs.BOF Then
         'Borrar la conexión al Recordset
         Rs.Close
@@ -206,3 +206,4 @@ sub FiltrarAccess()
     Set Rs = Nothing
     Set Conn = Nothing
 end sub
+    
