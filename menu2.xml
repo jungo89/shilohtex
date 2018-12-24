@@ -1,13 +1,18 @@
 <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
   <ribbon strartFromScratch="false">
     <tabs>
-      <tab id = "nombrePestaña"  label = "etiquetaPestaña">
-        <group id = "nombreGrupo"  label = "etiquetaGrupo">
-          <button id = "nombre"  label = "etiqueta"
+      <tab id = "GestorDeInventarios"  label = "Gestor">
+        <group id = "Productos"  label = "Productos">
+          <button id = "CrearCodigo"  label = "Crear Código"
             imageMso="Icono"
             onAction="Macro"
             tag="Etiqueta"
             size="normal/large"/>
+          <button id = "nombre"  label = "etiqueta"
+            imageMso="Icono"
+            onAction="Macro"
+            tag="Etiqueta"
+            size="normal/large"/>  
         </group>
       </tab>
     </tabs>

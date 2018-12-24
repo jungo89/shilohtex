@@ -7,6 +7,7 @@ private pDocumento as string
 private pNombreContacto as string
 private pNit as string
 private pRazonSocial as string
+private pTipoContribuyente as string
 private pComercio as string
 private pNicho as string
 private pSegmentacion as string
@@ -16,7 +17,7 @@ private pCupo as currency
 private pCredito as currency
 private pSaldo as currency
 private pCategoria as string
-private pTipoContribuyente as string
+
 
 'propiedad de escritura
 Public Property Let Id(value As integer)
@@ -66,6 +67,14 @@ End Property
 
 public property get RazonSocial() as string
     RazonSocial = pRazonSocial
+End Property
+
+Public Property let TipoContribuyente (Value as string)
+    pTipoContribuyente = Value
+End Property
+
+Public Property get TipoContribuyente() as string
+    TipoContribuyente = pTipoContribuyente
 End Property
 
 public property let Comercio(value as string)
@@ -138,14 +147,6 @@ End Property
 
 Public Property get Categoria() as string
     Categoria = pCategoria
-End Property
-
-Public Property let TipoContribuyente (Value as string)
-    pTipoContribuyente = Value
-End Property
-
-Public Property get TipoContribuyente() as string
-    TipoContribuyente = pTipoContribuyente
 End Property
 
 Public Sub RegistrarCliente()
