@@ -1,3 +1,5 @@
+Attribute VB_Name = "getRegistro"
+
 Public Function GetUltimoR(Hoja As Worksheet) As Integer
     GetUltimoR = GetNuevoR(Hoja) - 1
 End Function
@@ -17,7 +19,7 @@ End Function
 
 Public Sub Agregar(cmbBox As ComboBox, sItem As String)
 
-'Agrega los item Ãºnicos y en orden alfabÃ©tico
+'Agrega los item únicos y en orden alfabético
 
 For i = 0 To cmbBox.ListCount - 1
     Select Case StrComp(cmbBox.List(i), sItem, vbTextCompare)
@@ -29,3 +31,100 @@ Next
 cmbBox.AddItem sItem 'Es mayor lo agrega al final
 
 End Sub
+
+
+Public Sub CopiarClientes()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del cliente para verificar
+    Query = "SELECT * FROM clientes"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("clientes").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("clientes").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+
+Public Sub CopiarContactoCliente()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del cliente para verificar
+    Query = "SELECT * FROM contacto_cliente"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("contacto_cliente").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("contacto_cliente").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+
+

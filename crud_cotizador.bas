@@ -145,7 +145,7 @@ Private Sub ConsultarAccess()
 
 End Sub
 
-'Trae datos a una hoja excel utilizando un formulario para aplicaar filtros a la consulta
+'Trae datos a una hoja excel utilizando un formulario para aplicar filtros a la consulta
 sub FiltrarAccess()
     Dim Conn As ADODB.Connection
     Dim MiConexion
