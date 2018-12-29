@@ -1,18 +1,3 @@
-VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmDatosCompletosCliente 
-   Caption         =   "Clientes"
-   ClientHeight    =   6585
-   ClientLeft      =   120
-   ClientTop       =   465
-   ClientWidth     =   15015
-   OleObjectBlob   =   "frmDatosCompletosCliente.frx":0000
-   StartUpPosition =   1  'Centrar en propietario
-End
-Attribute VB_Name = "frmDatosCompletosCliente"
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
 
 'convertir a mayusculas contenido del textbox
 Private Sub txtNombreContacto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -22,7 +7,7 @@ End Sub
 
 
 
-'aceptar s髄o n鷐eros
+'aceptar s贸lo n煤meros
 Private Sub txtDocumento_Change()
     Dim Texto As Variant
     Dim Caracter As Variant
@@ -47,7 +32,7 @@ Private Sub txtDocumento_Change()
 End Sub
 
 
-'aceptar s髄o n鷐eros
+'aceptar s贸lo n煤meros
 Private Sub txtTelefono_Change()
     Dim Texto As Variant
     Dim Caracter As Variant
@@ -71,7 +56,7 @@ Private Sub txtTelefono_Change()
     Caracter1 = 0
 End Sub
 
-'aceptar s髄o n鷐eros
+'aceptar s贸lo n煤meros
 Private Sub txtCupo_Change()
     Dim Texto As Variant
     Dim Caracter As Variant
@@ -97,7 +82,7 @@ Private Sub txtCupo_Change()
     Caracter1 = 0
 End Sub
 
-'aceptar s髄o n鷐eros
+'aceptar s贸lo n煤meros
 Private Sub txtCredito_Change()
     Dim Texto As Variant
     Dim Caracter As Variant
@@ -121,7 +106,7 @@ Private Sub txtCredito_Change()
     Caracter1 = 0
 End Sub
 
-'aceptar s髄o n鷐eros
+'aceptar s贸lo n煤meros
 Private Sub txtSaldo_Change()
     Dim Texto As Variant
     Dim Caracter As Variant
@@ -149,7 +134,7 @@ Private Sub txtNombreContacto_AfterUpdate()
 'Determina el final del listado de Clientes
         Final = GetNuevoR(Hoja1)
         
-        'Validaci髇 para impedir Clientes repetidos
+        'Validaci贸n para impedir Clientes repetidos
         For Fila = 2 To Final
             If Me.txtNombreContacto.Text <> "" And UCase(Hoja1.Cells(Fila, 4)) = UCase(Me.txtNombreContacto.Text) Then
                 MsgBox ("Cliente ya existe en la Base de Datos"), , Titulo
@@ -194,10 +179,10 @@ Private Sub UserForm_Initialize()
     Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE"
     Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MEDIANO ALTO"
     Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MEDIANO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE PEQUE袿"
+    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE PEQUE脩O"
     Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MICRO"
     
- 'poblar combo Categor韆
+ 'poblar combo Categor铆a
     Me.cboCategoria.AddItem "A"
     Me.cboCategoria.AddItem "C"
     Me.cboCategoria.AddItem "V"
@@ -319,7 +304,7 @@ Private Sub cmdGuardar_Click()
             .Fields("ciudad") = cboCiudad
         End With
     
-        'Cerrar la conexi髇
+        'Cerrar la conexi贸n
         Rs.Update
         Rs.Close
     

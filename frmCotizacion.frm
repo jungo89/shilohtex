@@ -1,3 +1,19 @@
+VERSION 5.00
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmCotizacion 
+   Caption         =   "Cotización"
+   ClientHeight    =   13065
+   ClientLeft      =   120
+   ClientTop       =   465
+   ClientWidth     =   28155
+   OleObjectBlob   =   "frmCotizacion.frx":0000
+   StartUpPosition =   2  'Centrar en pantalla
+End
+Attribute VB_Name = "frmCotizacion"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+
 
 Private Sub UserForm_Initialize()
     Dim Fila As Integer
@@ -82,7 +98,7 @@ Private Sub cboNombreContacto_Change()
      'combo forma de pago
     Me.cboFormaDePago.AddItem "Contado"
     Me.cboFormaDePago.AddItem "Contra entrega"
-    Me.cboFormaDePago.AddItem "CrÃ©dito"
+    Me.cboFormaDePago.AddItem "Crédito"
     
     'combo prioridad
     Me.cboPrioridad.AddItem "Inmediato"
@@ -107,7 +123,7 @@ Private Sub cboFormaDePago_Change()
     txtFecha60Dias.Visible = True
     txtValor60Dias.Visible = True
     
-    If cboFormaDePago <> "CrÃ©dito" Then
+    If cboFormaDePago <> "Crédito" Then
         CboDias.Enabled = False
         txtInteres.Enabled = False
         

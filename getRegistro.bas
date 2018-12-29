@@ -97,7 +97,7 @@ Public Sub CopiarContactoCliente()
         .Open MiConexion
     End With
     
-    'traer datos del cliente para verificar
+    'traer datos del contacto_cliente para verificar
     Query = "SELECT * FROM contacto_cliente"
 
     Set Rs = New ADODB.Recordset
@@ -126,5 +126,142 @@ Public Sub CopiarContactoCliente()
 
 End Sub
 
+Public Sub CopiarProveedores()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
 
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del proveedor para verificar
+    Query = "SELECT * FROM proveedores"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("proveedores").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("proveedores").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+Public Sub CopiarContactoProveedor()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del contacto_proveedor para verificar
+    Query = "SELECT * FROM contacto_proveedor"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("contacto_proveedor").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("contacto_proveedor").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+
+Public Sub CopiarProductos()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del producto para verificar
+    Query = "SELECT * FROM productos"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("productos").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("productos").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
 

@@ -247,3 +247,10 @@ Private Sub txtTexto_Change()
     Next i
     On Error GoTo 0
 End Sub        
+
+On Error GoTo Salir
+
+Salir:
+     If Err <> 0 Then
+        MsgBox Err.Description, vbExclamation, Titulo
+     End If
