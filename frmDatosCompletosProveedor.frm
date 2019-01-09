@@ -1,23 +1,22 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmDatosCompletosCliente 
-   Caption         =   "Clientes"
-   ClientHeight    =   6585
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmDatosCompletosProveedor 
+   Caption         =   "Proveedores"
+   ClientHeight    =   6870
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   15015
-   OleObjectBlob   =   "frmDatosCompletosCliente.frx":0000
+   ClientWidth     =   7590
+   OleObjectBlob   =   "frmDatosCompletosProveedor.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End
-Attribute VB_Name = "frmDatosCompletosCliente"
+Attribute VB_Name = "frmDatosCompletosProveedor"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 'Convertir entrada de campos texto a mayúsculas
-'convertir a mayusculas contenido del textbox
 
 
-Private Sub txtNombreContacto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+Private Sub txtNombre_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
@@ -33,52 +32,9 @@ Private Sub txtBarrio_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
-Private Sub txtComercio_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    KeyAscii = Asc(UCase(Chr(KeyAscii)))
-End Sub
-
-Private Sub txtNicho_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    KeyAscii = Asc(UCase(Chr(KeyAscii)))
-End Sub
-
-Private Sub txtsegmentacion_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    KeyAscii = Asc(UCase(Chr(KeyAscii)))
-End Sub
-
-Private Sub txtProducto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    KeyAscii = Asc(UCase(Chr(KeyAscii)))
-End Sub
 
 
-Private Sub txtDistribucion_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    KeyAscii = Asc(UCase(Chr(KeyAscii)))
-End Sub
-'Validar entradas para permitir ingreso de sólo caracteres o núermos dependiendo del tipo de campo
-
-'aceptar sólo números
-Private Sub txtDocumento_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtDocumento.Value
-    Largo = Len(Me.txtDocumento.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtDocumento.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
-
+'Validar entradas para permitir ingreso de sólo caracteres o números dependiendo del tipo de campo
 
 'aceptar sólo números
 Private Sub txtTelefono_Change()
@@ -105,20 +61,20 @@ Private Sub txtTelefono_Change()
 End Sub
 
 'aceptar sólo números
-Private Sub txtCupo_Change()
+Private Sub txtDocumento_change()
     Dim Texto As Variant
     Dim Caracter As Variant
     Dim Largo As Integer
     
     On Error Resume Next
     
-    Texto = Me.txtCupo.Value
-    Largo = Len(Me.txtCupo.Value)
+    Texto = Me.txtDocumento.Value
+    Largo = Len(Me.txtDocumento.Value)
     For i = 1 To Largo
         Caracter = Mid(Texto, i, 1)
         If Caracter <> "" Then
             If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtCupo.Value = Replace(Texto, Caracter, "")
+                Me.txtDocumento.Value = Replace(Texto, Caracter, "")
             Else
             End If
         End If
@@ -130,64 +86,17 @@ Private Sub txtCupo_Change()
     Caracter1 = 0
 End Sub
 
-'aceptar sólo números
-Private Sub txtCredito_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtCredito.Value
-    Largo = Len(Me.txtCredito.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtCredito.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
 
-'aceptar sólo números
-Private Sub txtSaldo_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtSaldo.Value
-    Largo = Len(Me.txtSaldo.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtSaldo.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
-
-Private Sub txtNombreContacto_AfterUpdate()
-'Determina el final del listado de Clientes
-        Final = GetNuevoR(Hoja1)
+Private Sub txtNombre_AfterUpdate()
+'Determina el final del listado de proveedores
+        Final = GetNuevoR(Hoja4)
         
         'Validación para impedir Clientes repetidos
         For Fila = 2 To Final
-            If Me.txtNombreContacto.Text <> "" And UCase(Hoja1.Cells(Fila, 4)) = UCase(Me.txtNombreContacto.Text) Then
-                MsgBox ("Cliente ya existe en la Base de Datos"), , Titulo
+            If Me.txtNombre.Text <> "" And UCase(Hoja4.Cells(Fila, 2)) = UCase(Me.txtNombre.Text) Then
+                MsgBox ("Proveedor ya existe en la Base de Datos"), , Titulo
                 LimpiarControles
-                Me.txtNombreContacto.SetFocus
+                Me.txtNombre.SetFocus
                 Exit Sub
                 Exit For
             End If
@@ -196,10 +105,6 @@ End Sub
 
 
 Private Sub UserForm_Initialize()
-
-'Call CopiarClientes
-
-'Call CopiarContactoCliente
 
 'Poblar combo ciudades
     Dim Fila As Integer
@@ -223,17 +128,9 @@ Private Sub UserForm_Initialize()
     Me.cboTipoDocumento.AddItem "PERSONA NATURAL"
     Me.cboTipoDocumento.AddItem "REGIMEN SIMPLIFICADO"
 
- 'poblar combo TipoContribuyente
-    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MEDIANO ALTO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MEDIANO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE PEQUEÑO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MICRO"
-    
- 'poblar combo Categoría
-    Me.cboCategoria.AddItem "A"
-    Me.cboCategoria.AddItem "C"
-    Me.cboCategoria.AddItem "V"
+'poblar combo FormaPago
+    Me.cboFormaPago.AddItem "CONTADO"
+    Me.cboFormaPago.AddItem "CREDITO"
     
 End Sub
 
@@ -250,7 +147,7 @@ Private Sub cmdGuardar_Click()
         
     On Error GoTo Salir
     
-    Titulo = "Clientes"
+    Titulo = "Proveedores"
     
     For Each xTextBox In Controls
         If xTextBox.Name Like "txt*" And xTextBox = Empty Then
@@ -276,70 +173,61 @@ Private Sub cmdGuardar_Click()
         End With
     
     
-        'crear recordset clientes
+        'crear recordset proveedores
         Set Rs = New ADODB.Recordset
         Rs.CursorLocation = adUseServer
-        Rs.Open Source:="clientes", _
+        Rs.Open Source:="proveedores", _
             ActiveConnection:=Conn, _
             CursorType:=adOpenDynamic, _
             LockType:=adLockOptimistic, _
             Options:=adCmdTable
     
     
-        'Cargar los datos a tabla clientes
+        'Cargar los datos a tabla proveedores
         With Rs
             .AddNew
+            .Fields("nombre") = txtNombre
             .Fields("tipo_documento") = cboTipoDocumento
             .Fields("documento") = txtDocumento
-            .Fields("nombre_contacto") = txtNombreContacto
-            .Fields("nit") = txtNit
             .Fields("razon_social") = txtRazonSocial
-            .Fields("comercio") = txtComercio
-            .Fields("nicho") = txtNicho
-            .Fields("segmentacion") = txtSegmentacion
-            .Fields("producto") = txtProducto
-            .Fields("distribucion") = txtDistribucion
-            .Fields("cupo") = CCur(txtCupo)
-            .Fields("credito") = CCur(txtCredito)
-            .Fields("saldo") = CCur(txtSaldo)
-            .Fields("categoria") = cboCategoria
-            .Fields("tipo_contribuyente") = cboTipoContribuyente
+            .Fields("nit") = txtNit
+            .Fields("forma_pago") = cboFormaPago
         End With
     
         Rs.Update
         Rs.Close
     
         'determinar el id del registro que se graba
-        Query = "SELECT id FROM clientes WHERE nombre_contacto LIKE '%" & Me.txtNombreContacto.Value & "%'"
-        'Query = "SELECT id FROM clientes WHERE nombre_contacto = '" & Me.txtNombreContacto.Value & "'"
+        Query = "SELECT id FROM proveedores WHERE nombre LIKE '%" & Me.txtNombre.Value & "%'"
+        'Query = "SELECT id FROM proveedores WHERE nombre = '" & Me.txtNombre.Value & "'"
     
         Set Rs = New ADODB.Recordset
         Rs.CursorLocation = adUseServer
         Rs.Open Source:=Query, _
         ActiveConnection:=Conn
     
-        Sheets("contadores").Range("A2").Select
+        Sheets("contadores").Range("B2").Select
         Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
         Selection.ClearContents
         
-        Sheets("contadores").Range("A2").CopyFromRecordset Rs
+        Sheets("contadores").Range("B2").CopyFromRecordset Rs
     
         Rs.Close
     
-        'crear recordset contacto cliente
+        'crear recordset contacto proveedor
         Set Rs = New ADODB.Recordset
         Rs.CursorLocation = adUseServer
-        Rs.Open Source:="contacto_cliente", _
+        Rs.Open Source:="contacto_proveedor", _
             ActiveConnection:=Conn, _
             CursorType:=adOpenDynamic, _
             LockType:=adLockOptimistic, _
             Options:=adCmdTable
     
     
-        'Cargar los datos a tabla datos_cliente
+        'Cargar los datos a tabla datos_proveedor
         With Rs
             .AddNew
-            .Fields("id_cliente") = Sheets("contadores").Range("A2").Value
+            .Fields("id_proveedor") = Sheets("contadores").Range("B2").Value
             .Fields("telefono") = txtTelefono
             .Fields("direccion") = txtDireccion
             .Fields("correo") = txtCorreo
@@ -380,18 +268,14 @@ Private Sub LimpiarControles()
         For Each xTextBox In Controls
             If xTextBox.Name Like "txt*" Then
                 xTextBox = Empty
-                Me.txtNombreContacto.SetFocus
+                Me.txtNombre.SetFocus
             End If
         Next
         
         Me.cboCiudad = Empty
-        Me.cboTipoContribuyente = Empty
         Me.cboTipoDocumento = Empty
-        Me.cboCategoria = Empty
+        Me.cboFormaPago = Empty
 
 End Sub
-
-
-
 
 
