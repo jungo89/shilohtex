@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmDatosCompletosCliente 
    Caption         =   "Clientes"
-   ClientHeight    =   6585
+   ClientHeight    =   7095
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   15015
+   ClientWidth     =   14895
    OleObjectBlob   =   "frmDatosCompletosCliente.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End
@@ -14,7 +14,6 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 'Convertir entrada de campos texto a mayúsculas
-'convertir a mayusculas contenido del textbox
 
 
 Private Sub txtNombreContacto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -49,14 +48,15 @@ Private Sub txtProducto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
-
 Private Sub txtDistribucion_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
+
+
 'Validar entradas para permitir ingreso de sólo caracteres o núermos dependiendo del tipo de campo
 
 'aceptar sólo números
-Private Sub txtDocumento_Change()
+Private Sub txtDocumento_change()
     Dim Texto As Variant
     Dim Caracter As Variant
     Dim Largo As Integer
@@ -104,78 +104,77 @@ Private Sub txtTelefono_Change()
     Caracter1 = 0
 End Sub
 
-'aceptar sólo números
+'aceptar sólo números incluida coma para decimales
+
 Private Sub txtCupo_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtCupo.Value
-    Largo = Len(Me.txtCupo.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtCupo.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    
-        
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
+    Me.txtCupo.BackColor = &HFFFFFF
+
 End Sub
 
-'aceptar sólo números
+Private Sub txtCupo_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+On Error Resume Next
+    Me.txtCupo.Value = FormatCurrency(Me.txtCupo.Value, 2)
+End Sub
+
+Private Sub txtCupo_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
+
+'aceptar sólo números incluida coma para decimales
+
 Private Sub txtCredito_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtCredito.Value
-    Largo = Len(Me.txtCredito.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtCredito.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
+    Me.txtCupo.BackColor = &HFFFFFF
+
 End Sub
 
-'aceptar sólo números
-Private Sub txtSaldo_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtSaldo.Value
-    Largo = Len(Me.txtSaldo.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtSaldo.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
+Private Sub txtCredito_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+On Error Resume Next
+    Me.txtCredito.Value = FormatCurrency(Me.txtCredito.Value, 2)
+End Sub
+
+Private Sub txtCredito_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
         End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
+
+
+'aceptar sólo números incluida coma para decimales
+
+Private Sub txtSaldo_Change()
+    Me.txtSaldo.BackColor = &HFFFFFF
+
+End Sub
+
+Private Sub txtSaldo_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+On Error Resume Next
+    Me.txtSaldo.Value = FormatCurrency(Me.txtSaldo.Value, 2)
+End Sub
+
+Private Sub txtSaldo_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
 End Sub
 
 Private Sub txtNombreContacto_AfterUpdate()
@@ -219,16 +218,24 @@ Private Sub UserForm_Initialize()
     
     
 'poblar combo TipoDocumento
-    Me.cboTipoDocumento.AddItem "PERSONA JURIDICA"
-    Me.cboTipoDocumento.AddItem "PERSONA NATURAL"
-    Me.cboTipoDocumento.AddItem "REGIMEN SIMPLIFICADO"
+    Me.cboTipoDocumento.AddItem "CEDULA CIUDADANIA"
+    Me.cboTipoDocumento.AddItem "CEDULA EXTRANJERIA"
+    
 
  'poblar combo TipoContribuyente
-    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MEDIANO ALTO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MEDIANO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE PEQUEÑO"
-    Me.cboTipoContribuyente.AddItem "CONTRIBUYENTE MICRO"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. COMUN"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. SIMPLIFICADO"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL O JURIDICA LEY 1429"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. COMUN AGENTE AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "PERSONA JURIDICA"
+    Me.cboTipoContribuyente.AddItem "PERSONA JURIDICA AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE NO AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "ENTIDADES SIN ANIMO DE LUCRO"
+    Me.cboTipoContribuyente.AddItem "INSTITUCIONES DEL ESTADO PUBLICOS Y OTROS"
+    Me.cboTipoContribuyente.AddItem "PROVEEDOR SOCIEDADES DE CCIO. INTERNACIONAL"
+    Me.cboTipoContribuyente.AddItem "TERCERO DEL EXTERIOR"
     
  'poblar combo Categoría
     Me.cboCategoria.AddItem "A"

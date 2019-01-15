@@ -265,3 +265,188 @@ Public Sub CopiarProductos()
 
 End Sub
 
+Public Sub CopiarEmpleados()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del cliente para verificar
+    Query = "SELECT * FROM empleados"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("empleados").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("empleados").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+Public Sub CopiarTransportadores()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del trsnportador para verificar
+    Query = "SELECT * FROM transportadores"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("transportadores").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("transportadores").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+Public Sub CopiarColores()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del trsnportador para verificar
+    Query = "SELECT * FROM colores"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("colores").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("colores").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+Public Sub CopiarMedidas()
+    Dim Conn As ADODB.Connection
+    Dim MiConexion
+    Dim Rs As ADODB.Recordset
+    Dim MiBase As String
+    Dim Query As String
+    
+    MiBase = "cotizador.accdb"
+
+    Set Conn = New ADODB.Connection
+    MiConexion = Application.ThisWorkbook.Path & Application.PathSeparator & MiBase
+
+    With Conn
+        .Provider = "Microsoft.ACE.OLEDB.12.0"
+        .Open MiConexion
+    End With
+    
+    'traer datos del trsnportador para verificar
+    Query = "SELECT * FROM medidas"
+
+    Set Rs = New ADODB.Recordset
+    Rs.CursorLocation = adUseServer
+    Rs.Open Source:=Query, _
+    ActiveConnection:=Conn
+    
+       
+    Sheets("medidas").Range("A2").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.ClearContents
+    
+    For i = 0 To Rs.Fields.Count - 1
+    
+        Cells(1, i + 1).Value = Rs.Fields(i).Name
+    
+    Next i
+    
+    Sheets("medidas").Range("A2").CopyFromRecordset Rs
+    
+    Rs.Close
+   
+    Conn.Close
+    Set Rs = Nothing
+    Set Conn = Nothing
+
+End Sub
+
+

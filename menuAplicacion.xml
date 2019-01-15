@@ -1,7 +1,7 @@
 <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon.CargarCinta">
-	<ribbon startFromScratch="true">
+	<ribbon startFromScratch="false">
 		<tabs>
-			<tab id="Tab1" label="Gestor de Inventarios">
+			<tab id="Tab1" label="Gestor aplicación">
 				<group id="Group1" label=" ">
 					<menu id="MyDropdownMenu1" label="Config. Inicial" size="large" itemSize="large" image="setup_32x32" screentip="Configuración Inicial" supertip="Aquí puedes configurar el código del producto en cuanto a su longitud, y además, puedes elegir, si lo necesitas numérico o alfa-numérico. También aquí puedes configurar el tipo de moneda según tu región." >
 

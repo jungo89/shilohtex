@@ -1,20 +1,124 @@
-<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
-  <ribbon strartFromScratch="false">
-    <tabs>
-      <tab id = "GestorDeInventarios"  label = "Gestor">
-        <group id = "Productos"  label = "Productos">
-          <button id = "CrearCodigo"  label = "Crear Código"
-            imageMso="Icono"
-            onAction="Macro"
-            tag="Etiqueta"
-            size="normal/large"/>
-          <button id = "nombre"  label = "etiqueta"
-            imageMso="Icono"
-            onAction="Macro"
-            tag="Etiqueta"
-            size="normal/large"/>  
-        </group>
-      </tab>
-    </tabs>
-  </ribbon>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon.CargarCinta">
+	<ribbon startFromScratch="true">
+		<tabs>
+			<tab id="Tab1" label="Gestor de Inventarios">
+				<group id="Group1" label=" ">
+					<menu id="MyDropdownMenu1" label="Config. Inicial" size="large" itemSize="large" image="setup_32x32" screentip="Configuración Inicial" supertip="Aquí puedes configurar el código del producto en cuanto a su longitud, y además, puedes elegir, si lo necesitas numérico o alfa-numérico. También aquí puedes configurar el tipo de moneda según tu región." >
+
+            				<button id="Button1" label="Tipo de código de Prod." image="tipo_codigo_32x32" onAction="Boton1" getEnabled="Ribbon.RetornoDelBoton1"/>
+            				<button id="Button2" label="Tipo de Moneda" image="tipo_moneda_32x32" onAction="Boton2" getEnabled="Ribbon.RetornoDelBoton2"/>
+					</menu>
+
+				</group>
+
+	
+				<group id="Group2" label="Productos">
+						<button id="Button3" label="Crear Código" image="crear_codigo_32x32" size="large" screentip="Crear Código" supertip="En este formulario definimos el tipo de código que identificará caa uno de los prodcutos en el inventario. Además establecemeos el nombre, descripción, costo y precio de venta unitarios" onAction="Boton3" getEnabled="Ribbon.RetornoDelBoton3"/>
+						<button id="Button4" label="Modificar Código" image="modificar_codigo_32x32" size="large" screentip="Modificar Código" supertip="Si cometimos algún error a la hora de definir el nombre del producto, la descripción, el costo o el precio de venta, pues aquí podremos modificar dichos datos." onAction="Boton4" getEnabled="Ribbon.RetornoDelBoton4"/>
+
+				</group>
+
+				
+				<group id="Group3" label="Entradas">
+						<button id="Button5" label="Compras" image="compras_32x32" size="large" screentip="Compras" supertip="Aquí registramos las compras, para dar ingreso de los productos a nuestro inventario general" onAction="Boton5" getEnabled="Ribbon.RetornoDelBoton5"/>
+
+
+
+					<menu id="MyDropdownMenu2" label="Proveedores" size="large" itemSize="large" image="proveedor_32x32" screentip="Proveedores" supertip="Aquí puedes Gestionar el registro y eliminación de Proveedores en la DATA." >
+
+            				<button id="Button6" label="Registrar Proveedor" image="agregar_proveedor_32x32" onAction="Boton6" getEnabled="Ribbon.RetornoDelBoton6"/>
+						<button id="Button7" label="Eliminar Proveedor" image="eliminar_proveedor_32x32" onAction="Boton7" getEnabled="Ribbon.RetornoDelBoton7"/>
+
+					</menu>
+
+
+
+
+
+
+						<button id="Button8" label="Dev. Compras" image="devo_compras_32x32" size="large" screentip="Devoluciones Compras" supertip="Con este formulario podremos registrar las devoluciones de productos hacia los Proveedores" onAction="Boton8" getEnabled="Ribbon.RetornoDelBoton8"/>
+
+				</group>
+
+				<group id="Group4" label="Salidas">
+						<button id="Button9" label="Facturación" image="facturacion_32x32" size="large" screentip="Facturación" supertip="Formulario de Facturación, con el cual realizamos la venta de productos a nuestros clientes" onAction="Boton9" getEnabled="Ribbon.RetornoDelBoton9"/>
+						
+
+
+
+
+
+
+					<menu id="MyDropdownMenu3" label="Clientes" size="large" itemSize="large" image="clientes_32x32" screentip="Clientes" supertip="Mantener un registro de nuestros clientes es muy importante, ya que mediante esta DATA, podremos ponernos en contacto con ellos, para darles a conocer los productos más recientes en nuestra tienda." >
+
+            				<button id="Button10" label="Registrar Cliente" image="agregar_cliente_32x32" onAction="Boton10" getEnabled="Ribbon.RetornoDelBoton10"/>
+						<button id="Button11" label="Eliminar Cliente" image="eliminar_cliente_32x32" onAction="Boton11" getEnabled="Ribbon.RetornoDelBoton11"/>
+
+					</menu>
+						
+
+
+
+						<button id="Button12" label="Dev. Ventas" image="devo_32x32" size="large" screentip="Devoluciones Ventas" supertip="Formulario práctico para registrar las devoluciones de prodcutos, que por algún motivo, nuestros clientes devuelven" onAction="Boton12" getEnabled="Ribbon.RetornoDelBoton12"/>
+
+
+
+
+						<button id="Button13" label="Transferencias" image="transfer_32x32" size="large" screentip="Transferencias" supertip="Con este formulario podremos enviar productos hacia otras sucursales" onAction="Boton13" getEnabled="Ribbon.RetornoDelBoton13"/>
+
+				</group>
+				
+
+				<group id="Group5" label="Movimientos">
+					<menu id="MyDropdownMenu4" label="Consultar" size="large" itemSize="large" image="movimientos_32x32" screentip="Consulta de Movimientos" supertip="Aquí puedes consultar los movimientos de la mercadería, ya sea por producto o por rango de fechas." >
+
+            				<button id="Button14" label="Consultas x Prod/Rango fecha" image="reporte1_32x32" onAction="Boton14" getEnabled="Ribbon.RetornoDelBoton14"/>
+            				<button id="Button15" label="Reporte por Producto" image="reporte2_32x32" onAction="Boton15" getEnabled="Ribbon.RetornoDelBoton15"/>
+					</menu>
+
+				</group>
+
+
+				<group id="Group6" label="Uso Administrativo">
+					<menu id="MyDropdownMenu5" label="Usuarios" size="large" itemSize="large" image="usuarios_32x32" screentip="Uso Administrativo" supertip="Aquí puedes dar de alta a nuevos usuarios o eliminarlos. Además podrás otorgar permisos y restricciones a las diferentes áreas del Gestor de Inventarios." >
+
+            				<button id="Button16" label="Agregar Usuario" image="agregar_usuario_32x32" onAction="Boton16" getEnabled="Ribbon.RetornoDelBoton16"/>
+            				<button id="Button17" label="Eliminar Usuario" image="eliminar_usuario_32x32" onAction="Boton17" getEnabled="Ribbon.RetornoDelBoton17"/>
+
+						<menuSeparator id="Sep_Usuarios"/>
+						<button id="Button18" label="Permisos y Restricciones" image="permisos_32x32" onAction="Boton18" getEnabled="Ribbon.RetornoDelBoton18"/>
+					</menu>
+
+				</group>
+
+				<group id="Group7" label=" ">
+					<button id="Button19" label="Guardar" image="guardar_32x32" size="large" onAction="Boton19"/>
+				</group>
+
+				<group id="Group8" label=" ">
+					<button id="Button20" label="Iniciar sesión con otro Usuario" image="reingresar_32x32" size="large" onAction="Boton20"/>
+				</group>
+
+				
+
+
+				<group id="Group9" label=" ">
+					<menu id="MyDropdownMenu6" label="Contáctame" size="large" itemSize="large" image="contacto_32x32" >
+					
+					<button id="Button21" label="Donaciones" image="paypal_32x32" onAction="Boton21"/>
+            			<menuSeparator id="Sep_Acercade"/>	
+					<button id="Button22" label="YouTube" image="youtube_32x32" onAction="Boton22"/>
+					<button id="Button23" label="Facebook" image="facebook_32x32" onAction="Boton23"/>
+					<button id="Button24" label="Twitter" image="twitter_32x32" onAction="Boton24"/>
+            				
+					</menu>
+
+				</group>
+
+
+
+
+			</tab>
+		</tabs>
+	</ribbon>
 </customUI>
