@@ -13,7 +13,141 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'interes de 30, 60 y 90 crear OPCIÓN de 90 días
+
+'cálculo de fecha de vencimiento es igual a fecha de factura más 35
+
+'valor a 30, 60 y 90 días es igual al txtSubtotalCotizado * txtInteres
+
+'Si chkPCotizacion esta activo habilitar cboPorcentaje
+'traer a txtValorUnitario el valor neto de venta sin iva y multiplicarlo por el valor
+'del cboPorcentaje
+
+
+
+
+Dim i As Long
+'Dim sTotal As Currency
+
+
+Private Sub chkPCotizacion_change()
+    If Me.chkPCotizacion = False Then
+        Me.cboPorcentaje.Enabled = False
+    Else
+        Me.cboPorcentaje.Enabled = True
+    End If
+End Sub
+
+Private Sub lblEliminarItem_Click()
+    EliminarItem
+End Sub
+
+Private Sub lblProductos_Click()
+    AgregarItems
+End Sub
+
+Public Sub AgregarItems()
+'Agrega los items al listbox
+
+'Dim sTotal As Currency
+
+        If Me.cboProveedor.Text = "" Or Me.cboProducto.Text = "" Or Me.cboColor.Text = "" Then MsgBox ("Elija un producto"): Exit Sub
+        If Trim(Me.txtUnidades.Text) = "" Then MsgBox ("Debe ingresar la unidades"): Exit Sub
+       
+        With frmCotizacion
+            .lstDetalleFact1.AddItem Me.txtCantidad.Text 'unidades por producto
+            .lstDetalleFact1.List(i, 1) = Me.txtUnidades.Text 'cantidad solicitada
+            .lstDetalleFact1.List(i, 2) = Me.cboProducto.Value 'producto
+            .lstDetalleFact1.List(i, 3) = Me.cboColor.Value 'color
+            .lstDetalleFact1.List(i, 4) = Me.txtMedida.Text 'medida del producto
+            .lstDetalleFact1.List(i, 5) = Me.txtValorUnitario.Text 'valor unitario
+            .lstDetalleFact1.List(i, 6) = Me.txtSubtotal.Text 'subtotal
+            
+            'MsgBox (.lstDetalleFact1.List(i, 6))
+
+        i = i + 1
+        End With
+        
+        sumarImporte
+                
+        'sTotal = sTotal + (Me.txtSubtotal)
+        'Me.txtSubTotalCotizado.Text = sTotal
+        
+    
+        With Me
+           '.ComboBox1.ListIndex = -1
+            .cboProveedor = Empty
+            .cboColor = Empty
+            .txtCantidad = ""
+            .txtMedida = ""
+            .txtDisponible = ""
+            .txtValorUnitario = ""
+            .txtStock = ""
+            .txtUnidades = ""
+            .txtPedir = ""
+            .txtMetros = ""
+            .txtSubtotal = ""
+        End With
+
+End Sub
+
+Public Sub EliminarItem()
+' Elimina el item seleccionado y resta el importe de la columna de importes
+
+    If Me.lstDetalleFact1.ListIndex = -1 Then
+        MsgBox "Seleccionar un producto para eliminar", vbInformation
+        Exit Sub
+    End If
+
+    Me.lstDetalleFact1.RemoveItem (lstDetalleFact1.ListIndex)
+    Me.lstDetalleFact1.ListIndex = -1 ' Eliminar la "barra de selección"
+
+Me.sumarImporte
+
+'sTotal = sTotal + (Me.txtSubtotal)
+'Me.txtSubTotalCotizado.Text = sTotal
+            
+End Sub
+
+Public Sub sumarImporte()
+
+Dim i As Integer
+Dim sTotal As Currency
+
+
+sTotal = 0
+        For i = 0 To Me.lstDetalleFact1.ListCount - 1
+        
+            sTotal = sTotal + Me.lstDetalleFact1.List(i, 6) 'Aquí hago la sumatoria del importe, utilizando el punto decimal
+
+        Next i
+        'MsgBox (sTotal)
+        
+Me.txtSubTotalCotizado.Text = sTotal
+
+
+'            If sTotal > 0 Then ' aqui se hacen los calculos para el subtotal, iva y total
+'
+'                    Me.txtIva.Text = (sTotal / 100) * IvaPorcentaje
+'                    xIVA = Me.txtIva.Text
+'                    Me.txtTotal.Text = sTotal + xIVA
+'                    Me.txtLetras.Text = UCase(cMoneda(Me.txtTotal.Text))
+'                Else
+'                    Me.txtSubtotal.Text = Empty
+'                    Me.txtIva.Text = Empty
+'                    Me.txtTotal.Text = Empty
+'                    Me.txtLetras.Text = Empty
+'            End If
+            
+End Sub
+
+
 'aceptar sólo números incluida coma para decimales
+
+Private Sub fraDatosCliente_Click()
+
+End Sub
+
 
 Private Sub txtCupo_Change()
     Me.txtCupo.BackColor = &HFFFFFF
@@ -72,9 +206,10 @@ Private Sub txtSaldo_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
+
 Private Sub txtValorUnitario_Change()
     Me.txtValorUnitario.BackColor = &HFFFFFF
-    
+
     On Error Resume Next
     Me.txtValorUnitario.Value = FormatCurrency(Me.txtValorUnitario.Value, 2)
 End Sub
@@ -91,9 +226,55 @@ Private Sub txtValorUnitario_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
+Private Sub txtUnidades_Change()
+    Me.txtUnidades.BackColor = &HFFFFFF
+
+    If Me.txtValorUnitario <> "" And Me.txtUnidades <> "" Then
+        Me.txtSubtotal = Application.WorksheetFunction.RoundUp(Me.txtValorUnitario * Me.txtUnidades, 0)
+    Else
+        Me.txtSubtotal = Empty
+    End If
+
+End Sub
+
+Private Sub txtUnidades_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+On Error Resume Next
+    Me.txtUnidades.Value = FormatNumber(Me.txtUnidades.Value, 2)
+End Sub
+
+Private Sub txtUnidades_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
+
+Private Sub txtSubtotal_Change()
+    Me.txtSubtotal.BackColor = &HFFFFFF
+
+    On Error Resume Next
+    Me.txtSubtotal.Value = FormatCurrency(Me.txtSubtotal.Value, 2)
+End Sub
+
+Private Sub txtSubtotal_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
 Private Sub txtSubTotalCotizado_Change()
     Me.txtSubTotalCotizado.BackColor = &HFFFFFF
-    
+
     On Error Resume Next
     Me.txtSubTotalCotizado.Value = FormatCurrency(Me.txtSubTotalCotizado.Value, 2)
 End Sub
@@ -269,6 +450,17 @@ Private Sub UserForm_Initialize()
 
     End With
     
+    'configurar número de factura y tamño de las columnas del listbox
+    
+'    Me.Label11.Caption = Hoja12.Range("C6") & "% IVA:"
+'
+'    Me.lbl_nFactura.Caption = "No. " & Hoja7.Range("F2").Value + 1 'Llamamos el número de la factura
+'
+'
+'    With ListBox1
+'    .ColumnCount = 5
+'    .ColumnWidths = "50 pt;75 pt;165 pt;70 pt;70 pt" ' Unidades de medida, 72 pt(puntos)=1 Pulgada
+'
  
     'combo forma de pago
     Me.cboFormaDePago.AddItem "CONTADO"
@@ -277,9 +469,39 @@ Private Sub UserForm_Initialize()
     
     'combo prioridad
     Me.cboPrioridad.AddItem "INMEDIATO"
-    Me.cboPrioridad.AddItem "FELIPE"
-    Me.cboPrioridad.AddItem "LOGIFUTURO"
-   
+    Me.cboPrioridad.AddItem "DENTRO DE BOGOTA"
+    Me.cboPrioridad.AddItem "FUERA DE BOGOTA"
+    
+    'combo interes
+    Me.cboInteres.AddItem "1,0%"
+    Me.cboInteres.AddItem "1,5%"
+    Me.cboInteres.AddItem "2,0%"
+    Me.cboInteres.AddItem "2,5%"
+    Me.cboInteres.AddItem "3,0%"
+    Me.cboInteres.AddItem "3,5%"
+    Me.cboInteres.AddItem "4,0%"
+    Me.cboInteres.AddItem "4,5%"
+    Me.cboInteres.AddItem "5,0%"
+    Me.cboInteres.AddItem "5,5%"
+    Me.cboInteres.AddItem "6,0%"
+    
+    'combo porcentaje
+    Me.cboPorcentaje.AddItem "1,0%"
+    Me.cboPorcentaje.AddItem "1,5%"
+    Me.cboPorcentaje.AddItem "2,0%"
+    Me.cboPorcentaje.AddItem "2,5%"
+    Me.cboPorcentaje.AddItem "3,0%"
+    Me.cboPorcentaje.AddItem "3,5%"
+    Me.cboPorcentaje.AddItem "4,0%"
+    Me.cboPorcentaje.AddItem "4,5%"
+    Me.cboPorcentaje.AddItem "5,0%"
+    Me.cboPorcentaje.AddItem "5,5%"
+    Me.cboPorcentaje.AddItem "6,0%"
+    
+    Me.txtFechaElaboracion.Text = Date
+    Me.txtFecha30Dias.Text = Date + 35
+    Me.txtFecha60Dias.Text = Date + 65
+    Me.txtFecha90Dias.Text = Date + 95
    
 End Sub
 
@@ -301,7 +523,7 @@ Private Sub cboNombreContacto_Change()
     txtCupo.Text = Empty
     txtCredito.Text = Empty
     txtSaldo.Text = Empty
-    txtInteres.Text = Empty
+    'cboInteres.Clear
     txtCategoria = Empty
     
     
@@ -340,13 +562,21 @@ Private Sub cboNombreContacto_Change()
         Next
     
     End With
+    
+    'cboTelefono.Text = cboTtelefono.Index(0)
+    'cboTelefono.SelectedIndex = 0
+    'cboDireccion.AddItem (.Cells(Fila, 4))
+    'cboCorreo.AddItem (.Cells(Fila, 5))
+    'cboBarrio.AddItem (.Cells(Fila, 6))
+    'cboCiudad.AddItem (.Cells(Fila, 7))
+    
 
 End Sub
 
 Private Sub cboFormaDePago_Change()
     CboDias.Clear
     CboDias.Enabled = True
-    txtInteres.Enabled = True
+    cboInteres.Enabled = True
     
     lbl30Dias.Visible = True
     lblHasta30Dias.Visible = True
@@ -358,9 +588,14 @@ Private Sub cboFormaDePago_Change()
     txtFecha60Dias.Visible = True
     txtValor60Dias.Visible = True
     
+    lbl90Dias.Visible = True
+    lblHasta90Dias.Visible = True
+    txtFecha90Dias.Visible = True
+    txtValor90Dias.Visible = True
+    
     If cboFormaDePago <> "CREDITO" Then
         CboDias.Enabled = False
-        txtInteres.Enabled = False
+        cboInteres.Enabled = False
         
         lbl30Dias.Visible = False
         lblHasta30Dias.Visible = False
@@ -372,10 +607,15 @@ Private Sub cboFormaDePago_Change()
         txtFecha60Dias.Visible = False
         txtValor60Dias.Visible = False
         
+        lbl90Dias.Visible = False
+        lblHasta90Dias.Visible = False
+        txtFecha90Dias.Visible = False
+        txtValor90Dias.Visible = False
+        
     Else
         CboDias.Enabled = True
-        txtInteres.Enabled = True
-        For i = 30 To 60 Step 30
+        cboInteres.Enabled = True
+        For i = 30 To 90 Step 30
             CboDias.AddItem i
         Next i
     End If
@@ -390,6 +630,7 @@ Private Sub cboProveedor_Change()
     cboProducto.Clear
     cboColor.Clear
     txtCantidad = Empty
+    txtMedida = Empty
     txtValorUnitario = Empty
     txtDisponible = Empty
     txtStock = Empty
@@ -415,6 +656,7 @@ Private Sub cboProducto_Change()
     
     cboColor.Clear
     txtCantidad = Empty
+    txtMedida = Empty
     txtValorUnitario = Empty
     txtDisponible = Empty
     txtStock = Empty
@@ -442,6 +684,7 @@ Private Sub cboColor_Change()
     Dim Final As Long
     
     txtCantidad = Empty
+    txtMedida = Empty
     txtValorUnitario = Empty
     txtDisponible = Empty
     txtStock = Empty
@@ -455,7 +698,9 @@ Private Sub cboColor_Change()
         For Fila = 2 To Final
             If .Cells(Fila, 17) = cboProveedor And .Cells(Fila, 3) = cboProducto And .Cells(Fila, 4) = cboColor Then
                  txtValorUnitario = .Cells(Fila, 10)
-                 txtCantidad = .Cells(Fila, 6) & " Por " & .Cells(Fila, 7)
+                 'txtCantidad = .Cells(Fila, 6) & " Por " & .Cells(Fila, 7)
+                 txtCantidad = .Cells(Fila, 6)
+                 txtMedida = .Cells(Fila, 5)
                  txtDisponible = .Cells(Fila, 14)
                  txtStock = .Cells(Fila, 15)
                  txtPedir = .Cells(Fila, 16)
@@ -465,10 +710,11 @@ Private Sub cboColor_Change()
     End With
 End Sub
 
-Private Sub btnFechaElaboracion_Click()
-banderaCalendario = 1
-    Call LanzarCalendario(Me, "txtFechaElaboracion")
-End Sub
+
+'Private Sub btnFechaElaboracion_Click()
+'banderaCalendario = 1
+'    Call LanzarCalendario(Me, "txtFechaElaboracion")
+'End Sub
 
 Private Sub btnFechaEntrega_Click()
 banderaCalendario = 2

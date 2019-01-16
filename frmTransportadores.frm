@@ -64,10 +64,10 @@ End Sub
 
 
 Private Sub txtEmpresa_AfterUpdate()
-'Determina el final del listado de empleados
+'Determina el final del listado de transportadores
         Final = GetNuevoR(Hoja19)
         
-        'Validación para impedir Empleados repetidos
+        'Validación para impedir Transportadores repetidos
         For Fila = 2 To Final
             If Me.txtEmpresa.Text <> "" And UCase(Hoja19.Cells(Fila, 2)) = UCase(Me.txtEmpresa.Text) Then
                 MsgBox ("Transportador ya existe en la Base de Datos"), , Titulo

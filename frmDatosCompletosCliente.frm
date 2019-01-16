@@ -239,7 +239,8 @@ Private Sub UserForm_Initialize()
     
  'poblar combo Categoría
     Me.cboCategoria.AddItem "A"
-    Me.cboCategoria.AddItem "C"
+    Me.cboCategoria.AddItem "B"
+    Me.cboCategoria.AddItem "c"
     Me.cboCategoria.AddItem "V"
     
 End Sub
