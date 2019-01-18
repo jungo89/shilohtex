@@ -8,10 +8,32 @@
 'traer a txtValorUnitario el valor neto de venta sin iva y multiplicarlo por el valor
 'del cboPorcentaje
 
+'generar evento para chkPorcentaje que calcule: cboPorcentaje * txtvalorUnitario
+'Valor unitario a traer es el campo venta de la tabla
+'cboPorcentaje y cboIva deben estar relacionados
+'cboIva debe ser editable para cada producto
+
+'Incluir en el listbox el valor porcentaje del txtIva para poder recalcular el valor unitario
+'cuando se modifiquen los campos chkPorcentaje y cboPorcentaje
+
+'cotizar (Cantidad solicitada por el cliente)
+'cotizado (Lo que realmente se le vende al cliente)
+'pendiente (diferencia entre lo solicitado y lo entregado
+'unidades (Unidad de empaque del producto)
+'valor unitario flete
+'valor total flete
+'producto
+'color
+'medida
+'porcentaje iva
+'valor unitario
+'subtotal cotizado
+
 
 
 Dim i As Long
 'Dim sTotal As Currency
+
 
 Private Sub lblEliminarItem_Click()
     EliminarItem
@@ -31,7 +53,7 @@ Public Sub AgregarItems()
 'Dim sTotal As Currency
 
         If Me.cboProveedor.Text = "" Or Me.cboProducto.Text = "" Or Me.cboColor.Text = "" Then MsgBox ("Elija un producto"): Exit Sub
-        If Trim(Me.txtUnidades.Text) = "" Then MsgBox ("Debe ingresar la unidades"): Exit Sub
+        If Trim(Me.txtUnidades.Text) = "" Or Me.txtUnidades = Empty Then MsgBox ("Debe ingresar la unidades"): Exit Sub
        
         With frmCotizacion
             .lstDetalleFact1.AddItem Me.txtCantidad.Text 'unidades por producto
@@ -39,7 +61,7 @@ Public Sub AgregarItems()
             .lstDetalleFact1.List(i, 2) = Me.cboProducto.Value 'producto
             .lstDetalleFact1.List(i, 3) = Me.cboColor.Value 'color
             .lstDetalleFact1.List(i, 4) = Me.txtMedida.Text 'medida del producto
-            .lstDetalleFact1.List(i, 5) = Me.txtValorUnitario.Text 'valor unitario
+            .lstDetalleFact1.List(i, 5) = Me.txtValorUnitarioIva.Text 'valor unitario
             .lstDetalleFact1.List(i, 6) = Me.txtSubtotal.Text 'subtotal
             
             'MsgBox (.lstDetalleFact1.List(i, 6))
@@ -56,16 +78,21 @@ Public Sub AgregarItems()
         With Me
            '.ComboBox1.ListIndex = -1
             .cboProveedor = Empty
+            .cboProducto = Empty
             .cboColor = Empty
             .txtCantidad = ""
             .txtMedida = ""
-            .txtDisponible = ""
             .txtValorUnitario = ""
-            .txtStock = ""
+            .txtValorEmpaque = ""
+            .cboIva = Empty
+            .txtValorUnitarioIva = ""
+            .txtValorEmpaqueIva = ""
             .txtUnidades = ""
-            .txtPedir = ""
-            .txtMetros = ""
+            '.txtMetros = ""
             .txtSubtotal = ""
+            .txtDisponible = ""
+            .txtStock = ""
+            .txtPedir = ""
         End With
 
 End Sub
@@ -121,6 +148,75 @@ Me.txtSubTotalCotizado.Text = sTotal
 End Sub
 
 
+Private Sub txtCantidad_Change()
+    Dim val As String
+    val = Me.cboIva
+    
+    'Me.txtCantidad.BackColor = &HFFFFFF
+    
+    'On Error Resume Next
+    'Me.txtCantidad.Value = FormatNumber(Me.txtCantidad.Value, 2)
+    
+    Select Case val
+                    
+        Case Is = "0,00%"
+            val = 0#
+        Case Is = "1,00%"
+            val = 0.01
+        Case Is = "1,50%"
+            val = 0.015
+        Case Is = "2,00%"
+            val = 0.02
+        Case Is = "2,50%"
+            val = 0.025
+        Case Is = "3,00%"
+            val = 0.03
+        Case Is = "3,50%"
+            val = 0.035
+        Case Is = "4,00%"
+            val = 0.04
+        Case Is = "4,50%"
+            val = 0.045
+        Case Is = "5,00%"
+            val = 0.05
+        Case Is = "5,50%"
+            val = 0.055
+        Case Is = "6,00%"
+            val = 0.06
+        Case Else
+            val = 0#
+    End Select
+    
+
+    If Me.txtValorUnitario <> "" And Me.txtUnidades <> "" And Me.txtCantidad <> "" Then
+        Me.txtSubtotal = Application.WorksheetFunction.RoundUp((Me.txtValorUnitarioIva * Me.txtUnidades * Me.txtCantidad), 0)
+        'Me.txtValorUnitario = Application.WorksheetFunction.RoundUp((Me.txtValorUnitario) * (1 + val), 0)
+        'Me.cboInteres.Value = Formatdouble(Me.cboInteres.Value, 2)
+        'MsgBox (cboIva)
+        'MsgBox (val)
+        
+    Else
+        Me.txtSubtotal = Empty
+    End If
+End Sub
+
+Private Sub txtCantidad_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+On Error Resume Next
+    Me.txtCantidad.Value = FormatNumber(Me.txtCantidad.Value, 2)
+End Sub
+
+Private Sub txtCantidad_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
+
 'Configurar formato de los controles controles
 '----------------------------------------------------------------------------------------------
 'aceptar sólo números incluida coma para decimales
@@ -164,6 +260,8 @@ Private Sub txtCredito_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
+
+
 Private Sub txtSaldo_Change()
     Me.txtSaldo.BackColor = &HFFFFFF
     
@@ -203,23 +301,14 @@ Private Sub txtValorUnitario_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
-Private Sub txtUnidades_Change()
-    Me.txtUnidades.BackColor = &HFFFFFF
+Private Sub txtValorEmpaque_Change()
+    Me.txtValorEmpaque.BackColor = &HFFFFFF
 
-    If Me.txtValorUnitario <> "" And Me.txtUnidades <> "" Then
-        Me.txtSubtotal = Application.WorksheetFunction.RoundUp(Me.txtValorUnitario * Me.txtUnidades, 0)
-    Else
-        Me.txtSubtotal = Empty
-    End If
-
+    On Error Resume Next
+    Me.txtValorEmpaque.Value = FormatCurrency(Me.txtValorEmpaque.Value, 2)
 End Sub
 
-Private Sub txtUnidades_Exit(ByVal Cancel As MSForms.ReturnBoolean)
-On Error Resume Next
-    Me.txtUnidades.Value = FormatNumber(Me.txtUnidades.Value, 2)
-End Sub
-
-Private Sub txtUnidades_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+Private Sub txtValorEmpaque_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     If Application.DecimalSeparator = "." Then
         If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
             KeyAscii = 0
@@ -230,6 +319,111 @@ Private Sub txtUnidades_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
         End If
     End If
 End Sub
+
+Private Sub txtValorUnitarioIva_Change()
+    Me.txtValorUnitarioIva.BackColor = &HFFFFFF
+
+    On Error Resume Next
+    Me.txtValorUnitarioIva.Value = FormatCurrency(Me.txtValorUnitarioIva.Value, 2)
+End Sub
+
+Private Sub txtValorUnitarioIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
+
+Private Sub txtValorEmpaqueIva_Change()
+    Me.txtValorEmpaqueIva.BackColor = &HFFFFFF
+
+    On Error Resume Next
+    Me.txtValorEmpaqueIva.Value = FormatCurrency(Me.txtValorEmpaqueIva.Value, 2)
+End Sub
+
+Private Sub txtValorEmpaqueIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
+End Sub
+
+Private Sub txtUnidades_Change()
+    Me.txtUnidades.BackColor = &HFFFFFF
+    
+    Dim val As String
+    val = Me.cboIva
+    
+    Select Case val
+        Case Is = "0,00%"
+            val = 0#
+        Case Is = "1,00%"
+            val = 0.01
+        Case Is = "1,50%"
+            val = 0.015
+        Case Is = "2,00%"
+            val = 0.02
+        Case Is = "2,50%"
+            val = 0.025
+        Case Is = "3,00%"
+            val = 0.03
+        Case Is = "3,50%"
+            val = 0.035
+        Case Is = "4,00%"
+            val = 0.04
+        Case Is = "4,50%"
+            val = 0.045
+        Case Is = "5,00%"
+            val = 0.05
+        Case Is = "5,50%"
+            val = 0.055
+        Case Is = "6,00%"
+            val = 0.06
+
+    End Select
+    
+
+    If Me.txtValorUnitario <> "" And Me.txtUnidades <> "" Then
+        Me.txtSubtotal = Application.WorksheetFunction.RoundUp((Me.txtValorUnitario * Me.txtUnidades * Me.txtCantidad + ((Me.txtValorUnitario * Me.txtUnidades * Me.txtCantidad) * val)), 0)
+        'Me.txtValorUnitario = Application.WorksheetFunction.RoundUp((Me.txtValorUnitario) * (1 + val), 0)
+        'Me.cboInteres.Value = Formatdouble(Me.cboInteres.Value, 2)
+        'MsgBox (cboIva)
+        'MsgBox (val)
+        
+    Else
+        Me.txtSubtotal = Empty
+    End If
+
+End Sub
+
+'Private Sub txtUnidades_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+'On Error Resume Next
+'    Me.txtUnidades.Value = FormatNumber(Me.txtUnidades.Value, 2)
+'End Sub
+
+'Private Sub txtUnidades_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+'    If Application.DecimalSeparator = "." Then
+'        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+'            KeyAscii = 0
+'        End If
+'    Else
+'        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+'            KeyAscii = 0
+'        End If
+'    End If
+'End Sub
+
+
 
 Private Sub txtSubtotal_Change()
     Me.txtSubtotal.BackColor = &HFFFFFF
@@ -369,7 +563,16 @@ Private Sub cboPorcentaje_Change()
     On Error Resume Next
     Me.cboPorcentaje.Value = FormatPercent(Me.cboPorcentaje.Value, 2)
     
+    'If Me.chkPCotizacion = False Then
+    '    Me.cboPorcentaje.Enabled = False
+    '    'Me.cboPorcentaje = 0#
+    'Else
+    '    Me.cboPorcentaje.Enabled = True
+        Me.cboIva = Me.cboPorcentaje
+    'End If
+    
 End Sub
+
 
 Private Sub cboPorcentaje_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     If Application.DecimalSeparator = "." Then
@@ -410,6 +613,49 @@ Private Sub cboIva_Change()
     On Error Resume Next
     Me.cboIva.Value = FormatPercent(Me.cboIva.Value, 2)
     
+    Dim nomIva As String
+    Dim valIva As Double
+    
+        
+             
+                nomIva = Me.cboIva
+    
+                Select Case nomIva
+                    Case Is = "0,00%"
+                        valIva = 0#
+                    Case Is = "1,00%"
+                        valIva = 0.01
+                    Case Is = "1,50%"
+                        valIva = 0.015
+                    Case Is = "2,00%"
+                        valIva = 0.02
+                    Case Is = "2,50%"
+                        valIva = 0.025
+                    Case Is = "3,00%"
+                        valIva = 0.03
+                    Case Is = "3,50%"
+                        valIva = 0.035
+                    Case Is = "4,00%"
+                        valIva = 0.04
+                    Case Is = "4,50%"
+                        valIva = 0.045
+                    Case Is = "5,00%"
+                        valIva = 0.05
+                    Case Is = "5,50%"
+                        valIva = 0.055
+                    Case Is = "6,00%"
+                        valIva = 0.06
+                End Select
+                
+                'MsgBox (valIva)
+                 
+                txtValorUnitarioIva = Application.WorksheetFunction.RoundUp(txtValorUnitario * (1 + valIva), 0)
+                txtValorEmpaqueIva = Application.WorksheetFunction.RoundUp(txtValorEmpaque * (1 + valIva), 0)
+                
+        
+    
+    
+    
 End Sub
 
 Private Sub cboIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -424,13 +670,7 @@ Private Sub cboIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
-Private Sub chkPCotizacion_change()
-    If Me.chkPCotizacion = False Then
-        Me.cboPorcentaje.Enabled = False
-    Else
-        Me.cboPorcentaje.Enabled = True
-    End If
-End Sub
+
 
 'inicializar controles del formulario al cargar
 '----------------------------------------------------------------------------------------------
@@ -535,6 +775,7 @@ Private Sub UserForm_Initialize()
     Me.cboInteres.AddItem "0,060"
     
     'combo porcentaje
+    Me.cboPorcentaje.AddItem "0,00"
     Me.cboPorcentaje.AddItem "0,01"
     Me.cboPorcentaje.AddItem "0,015"
     Me.cboPorcentaje.AddItem "0,020"
@@ -547,12 +788,39 @@ Private Sub UserForm_Initialize()
     Me.cboPorcentaje.AddItem "0,055"
     Me.cboPorcentaje.AddItem "0,060"
     
-    Me.txtFechaElaboracion.Text = Date
+    Me.cboPorcentaje = "0,00"
+    
+    
+    'combo Iva
+    Me.cboIva.AddItem "0,00"
+    Me.cboIva.AddItem "0,01"
+    Me.cboIva.AddItem "0,015"
+    Me.cboIva.AddItem "0,020"
+    Me.cboIva.AddItem "0,025"
+    Me.cboIva.AddItem "0,030"
+    Me.cboIva.AddItem "0,035"
+    Me.cboIva.AddItem "0,040"
+    Me.cboIva.AddItem "0,045"
+    Me.cboIva.AddItem "0,050"
+    Me.cboIva.AddItem "0,055"
+    Me.cboIva.AddItem "0,060"
+    
+    Me.cboIva = "0,00"
+    
+    Me.txtFechaElaboracion.Text = Now
+    
     Me.txtFecha30Dias.Text = Date + 35
     Me.txtFecha60Dias.Text = Date + 65
     Me.txtFecha90Dias.Text = Date + 95
     
+    'Me.cboPorcentaje = 0#
+    cboIva = cboPorcentaje
+    
     Me.cboPorcentaje.Enabled = False
+    Me.cboIva.Enabled = False
+    
+    
+    
    
 End Sub
 
@@ -631,6 +899,23 @@ Private Sub cboNombreContacto_Change()
     
 End Sub
 
+Private Sub chkPCotizacion_Change()
+    If Me.chkPCotizacion = False Then
+        Me.cboPorcentaje = 0
+        Me.cboPorcentaje.Enabled = False
+        
+        Me.cboIva = Me.cboPorcentaje
+        Me.cboIva.Enabled = False
+        
+    Else
+        Me.cboPorcentaje.Enabled = True
+        Me.cboIva.Enabled = True
+        Me.cboIva = Me.cboPorcentaje
+    End If
+End Sub
+
+
+
 Private Sub cboFormaDePago_Change()
     CboDias.Clear
     CboDias.Enabled = True
@@ -685,14 +970,14 @@ Private Sub cboProveedor_Change()
     Dim Fila As Long
     Dim Final As Long
     
-    cboProducto.Clear
-    cboColor.Clear
-    txtCantidad = Empty
-    txtMedida = Empty
-    txtValorUnitario = Empty
-    txtDisponible = Empty
-    txtStock = Empty
-    txtPedir = Empty
+    Me.cboProducto.Clear
+    Me.cboColor.Clear
+    Me.txtCantidad = Empty
+    Me.txtMedida = Empty
+    Me.txtValorUnitario = Empty
+    Me.txtDisponible = Empty
+    Me.txtStock = Empty
+    Me.txtPedir = Empty
     
   
     With Hoja2 ' productos
@@ -712,13 +997,13 @@ Private Sub cboProducto_Change()
     Dim Fila As Long
     Dim Final As Long
     
-    cboColor.Clear
-    txtCantidad = Empty
-    txtMedida = Empty
-    txtValorUnitario = Empty
-    txtDisponible = Empty
-    txtStock = Empty
-    txtPedir = Empty
+    Me.cboColor.Clear
+    Me.txtCantidad = Empty
+    Me.txtMedida = Empty
+    Me.txtValorUnitario = Empty
+    Me.txtDisponible = Empty
+    Me.txtStock = Empty
+    Me.txtPedir = Empty
     
   
     With Hoja2 ' productos
@@ -726,7 +1011,7 @@ Private Sub cboProducto_Change()
         Final = GetUltimoR(Hoja2)
     
         For Fila = 2 To Final
-            If .Cells(Fila, 3) = cboProducto Then
+            If .Cells(Fila, 3) = Me.cboProducto Then
                  Agregar cboColor, .Cells(Fila, 4)
                  'txtValorUnitario = .Cells(Fila, 10)
                  
@@ -741,12 +1026,25 @@ Private Sub cboColor_Change()
     Dim Fila As Long
     Dim Final As Long
     
-    txtCantidad = Empty
-    txtMedida = Empty
-    txtValorUnitario = Empty
-    txtDisponible = Empty
-    txtStock = Empty
-    txtPedir = Empty
+    Dim nomIva As String
+    Dim valIva As Double
+    
+        
+    Me.txtCantidad = ""
+    Me.txtMedida = ""
+    Me.txtValorUnitario = ""
+    Me.txtValorEmpaque = ""
+    Me.cboIva = 0
+    Me.txtValorUnitarioIva = ""
+    Me.txtValorEmpaqueIva = ""
+    Me.txtUnidades = ""
+    'Me.txtMetros = ""
+    Me.txtSubtotal = ""
+    Me.txtDisponible = ""
+    Me.txtStock = ""
+    Me.txtPedir = ""
+    
+    'MsgBox (chkPCotizacion)
     
   
     With Hoja2 ' productos
@@ -754,19 +1052,86 @@ Private Sub cboColor_Change()
         Final = GetUltimoR(Hoja2)
     
         For Fila = 2 To Final
-            If .Cells(Fila, 17) = cboProveedor And .Cells(Fila, 3) = cboProducto And .Cells(Fila, 4) = cboColor Then
-                 txtValorUnitario = .Cells(Fila, 10)
-                 cboIva = .Cells(Fila, 11)
-                 txtCantidad = .Cells(Fila, 6)
-                 txtMedida = .Cells(Fila, 5)
-                 txtDisponible = .Cells(Fila, 14)
-                 txtStock = .Cells(Fila, 15)
-                 txtPedir = .Cells(Fila, 16)
+            If .Cells(Fila, 17) = Me.cboProveedor And .Cells(Fila, 3) = Me.cboProducto And .Cells(Fila, 4) = Me.cboColor Then
+                
+                Me.txtCantidad = .Cells(Fila, 6)
+                Me.txtMedida = .Cells(Fila, 5)
+            
+                Me.txtValorUnitario = .Cells(Fila, 10)
+                Me.txtValorEmpaque = txtValorUnitario * txtCantidad
+                
+                'If Me.chkPCotizacion.Enabled = True Then
+                '    Me.cboIva = .Cells(Fila, 11)
+                'Else
+                '    Me.cboIva = "0,00"
+                'End If
+                
+                If Me.chkPCotizacion = False Then
+                    'Me.cboPorcentaje = 0
+                    Me.cboIva = 0
+                Else
+                    Me.cboIva = .Cells(Fila, 11)
+                   
+                End If
+                
+                'If Me.chkPCotizacion.Enabled = True Then
+                '    Me.cboIva = .Cells(Fila, 11)
+                'End If
+                                
+               
+                nomIva = Me.cboIva
+    
+                Select Case nomIva
+                    Case Is = 0
+                        valIva = 0#
+                    Case Is = "0,00%"
+                        valIva = 0#
+                    Case Is = "1,00%"
+                        valIva = 0.01
+                    Case Is = "1,50%"
+                        valIva = 0.015
+                    Case Is = "2,00%"
+                        valIva = 0.02
+                    Case Is = "2,50%"
+                        valIva = 0.025
+                    Case Is = "3,00%"
+                        valIva = 0.03
+                    Case Is = "3,50%"
+                        valIva = 0.035
+                    Case Is = "4,00%"
+                        valIva = 0.04
+                    Case Is = "4,50%"
+                        valIva = 0.045
+                    Case Is = "5,00%"
+                        valIva = 0.05
+                    Case Is = "5,50%"
+                        valIva = 0.055
+                    Case Is = "6,00%"
+                        valIva = 0.06
+                End Select
+                
+                'MsgBox (valIva)
+                 
+                txtValorUnitarioIva = Application.WorksheetFunction.RoundUp(Me.txtValorUnitario * (1 + valIva), 0)
+                txtValorEmpaqueIva = Application.WorksheetFunction.RoundUp(Me.txtValorEmpaque * (1 + valIva), 0)
+                 
+                Me.txtDisponible = .Cells(Fila, 14)
+                Me.txtStock = .Cells(Fila, 15)
+                Me.txtPedir = .Cells(Fila, 16)
             End If
         Next
     
     End With
 End Sub
+
+'Private Sub chkPCotizacion_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+'On Error Resume Next
+'    'Me.txtSaldo.Value = FormatCurrency(Me.txtSaldo.Value, 2)
+'    If Me.chkPCotizacion = False Then Me.cboPorcentaje = Empty
+'    If Me.chkPCotizacion <> "" And Me.cboPorcentaje <> "" Then
+'        Me.cboIva = Me.cboPorcentaje
+'    End If
+'End Sub
 
 
 'Private Sub btnFechaElaboracion_Click()
