@@ -59,7 +59,7 @@
             			<button id="Button28" label="Acumulado anual" />
 						<button id="Button29" label="Semestral" />
 						<button id="Button30" label="Trimestral" />
-						<button id="Button31" label="mensual" />
+						<button id="Button31" label="Mensual" />
 					</menu>
 					<button id="Button32" label="Por producto" screentip="Por producto" supertip="Descripción del formulario"/>
 					<button id="Button33" label="Por asesora" screentip="Por asesora" supertip="Descripción del formulario"/>
