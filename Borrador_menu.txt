@@ -1,0 +1,60 @@
+Productos
+    Crear código
+    Modificar código
+    Consultar código
+
+Entradas
+    Compras
+    Proveedores
+        Registrar Proveedor
+        Modificar Proveedor
+        Consultar Proveedor
+    Dev. Compras
+
+Salidas
+    Cotización
+        Crear Cotización
+        Modificar Cotización
+        Consultar Cotización
+    Clientes
+        Registrar Cliente
+        Modificar Cliente
+        Consultar Cliente
+    Dev. Ventas
+    Transferencias
+
+Movimientos
+    Consultar
+        Cotizaciones por fecha
+        Cotizaciones por Cliente
+        Compras por fecha
+        Compras por proveedor
+    Inventarios
+        Totales por producto y bodega
+        Totales por producto y fecha
+
+Reportes
+    Ventas
+        Por Periodos
+            Acumulado anual
+            Semestral
+            Trimestral
+            Mensual
+        Por Productos
+        Por Asesora
+
+Transportadores
+    Registrar
+    Modificar
+
+Usuarios
+    Agregar
+    Editar
+    Permisos y restricciones    
+
+Mantenimiento
+    Guardar
+    Copia de seguridad
+    Iniciar sesión con otro usuario
+
+    
