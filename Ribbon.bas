@@ -223,10 +223,12 @@ Sub Boton41(control As IRibbonControl)
 End Sub
 
 Sub Boton42(control As IRibbonControl)
-    ThisWorkbook.Save
+    'ThisWorkbook.Save
+    MsgBox ("Boton 42")
 End Sub
 
 Sub Boton43(control As IRibbonControl)
+
 'Dim sRuta As String
 'Dim sNombreFolder As String
 'Dim sSeparador As String
@@ -257,12 +259,15 @@ Sub Boton43(control As IRibbonControl)
 '        Else
 '            Exit Sub
 '    End If
-'   frm.Show
-    MsgBox ("Boton 44")
+
+'frm.Show
+    MsgBox ("Boton 43")
+    
 End Sub
 
 Sub Boton44(control As IRibbonControl)
-    frm_Login.Show
+    'frm_Login.Show
+    MsgBox ("Boton 44")
 End Sub
 
 
@@ -447,3 +452,4 @@ End Sub
 Sub RetornoDelBoton44(control As IRibbonControl, ByRef ValorDevuelto)
     ValorDevuelto = RetVal(44)
 End Sub
+
