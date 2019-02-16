@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmRegistrarProveedor_6 
    Caption         =   "Registrar Proveedor"
-   ClientHeight    =   6870
+   ClientHeight    =   7680
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   7590
+   ClientWidth     =   7545
    OleObjectBlob   =   "frmRegistrarProveedor_6.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End

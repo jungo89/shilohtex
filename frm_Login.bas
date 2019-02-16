@@ -7,8 +7,6 @@
 
 
 
-
-
 Option Explicit
 Option Base 1
 Private Sub btn_Ingresar_Click()
@@ -18,7 +16,7 @@ Dim password As String, UsuarioEncontrado As String, yaExiste As Byte, Status As
 Dim Rango As Range
 Dim Titulo As String
 Dim Hoja As Worksheet
-Dim vHoja(13) As String
+'Dim vHoja(13) As String
 Dim vBoton(44) As String
 Dim i As Byte
 Dim j as byte

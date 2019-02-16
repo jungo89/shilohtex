@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmRegistrarCliente_15 
    Caption         =   "Registrar Cliente"
-   ClientHeight    =   7095
+   ClientHeight    =   7275
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   14895
+   ClientWidth     =   15180
    OleObjectBlob   =   "frmRegistrarCliente_15.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End

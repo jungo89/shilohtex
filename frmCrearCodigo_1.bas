@@ -10,28 +10,21 @@ End Sub
 
 'Validar entradas para permitir ingreso de sólo caracteres o números dependiendo del tipo de campo
 
-'aceptar sólo números
-Private Sub txtCantidad_change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtCantidad.Value
-    Largo = Len(Me.txtCantidad.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtCantidad.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
+Private Sub txtCantidad_Exit(ByVal Cancel As MSForms.ReturnBoolean)
+On Error Resume Next
+    Me.txtCantidad.Value = FormatNumber(Me.txtCantidad.Value, 0)
+End Sub
+
+Private Sub txtCantidad_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    If Application.DecimalSeparator = "." Then
+        If KeyAscii <> 46 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
         End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
+    Else
+        If KeyAscii <> 44 And KeyAscii < 48 Or KeyAscii > 57 Then
+            KeyAscii = 0
+        End If
+    End If
 End Sub
 
 'aceptar sólo números incluida coma para decimales
@@ -62,7 +55,7 @@ End Sub
 
 Private Sub txtCosto_Exit(ByVal Cancel As MSForms.ReturnBoolean)
 On Error Resume Next
-    Me.txtCosto.Value = FormatNumber(Me.txtCosto.Value, 2)
+    Me.txtCosto.Value = FormatCurrency(Me.txtCosto.Value, 2)
 End Sub
 
 Private Sub txtCosto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -114,7 +107,7 @@ Private Sub txtVenta_Change()
     Me.txtVenta.BackColor = &HFFFFFF
     
     On Error Resume Next
-    Me.txtVenta.Value = FormatNumber(Me.txtVenta.Value, 2)
+    Me.txtVenta.Value = FormatCurrency(Me.txtVenta.Value, 2)
 End Sub
 
 Private Sub txtVenta_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -165,7 +158,7 @@ Private Sub txtVentaIva_Change()
     Me.txtVentaIva.BackColor = &HFFFFFF
     
     On Error Resume Next
-    Me.txtVentaIva.Value = FormatNumber(Me.txtVentaIva.Value, 2)
+    Me.txtVentaIva.Value = FormatCurrency(Me.txtVentaIva.Value, 2)
 End Sub
 
 Private Sub txtVentaIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -180,77 +173,77 @@ Private Sub txtVentaIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
-'aceptar sólo números
-Private Sub txtDisponible_change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtDisponible.Value
-    Largo = Len(Me.txtDisponible.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtDisponible.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
-
-'aceptar sólo números
-Private Sub txtStock_change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtStock.Value
-    Largo = Len(Me.txtStock.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtStock.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
-
-'aceptar sólo números
-Private Sub txtPedir_change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtPedir.Value
-    Largo = Len(Me.txtPedir.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtPedir.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
+''aceptar sólo números
+'Private Sub txtDisponible_change()
+'    Dim Texto As Variant
+'    Dim Caracter As Variant
+'    Dim Largo As Integer
+'
+'    On Error Resume Next
+'
+'    Texto = Me.txtDisponible.Value
+'    Largo = Len(Me.txtDisponible.Value)
+'    For i = 1 To Largo
+'        Caracter = Mid(Texto, i, 1)
+'        If Caracter <> "" Then
+'            If Caracter < Chr(48) Or Caracter > Chr(57) Then
+'                Me.txtDisponible.Value = Replace(Texto, Caracter, "")
+'            Else
+'            End If
+'        End If
+'    Next i
+'    On Error GoTo 0
+'    Caracter = 0
+'    Caracter1 = 0
+'End Sub
+'
+''aceptar sólo números
+'Private Sub txtStock_change()
+'    Dim Texto As Variant
+'    Dim Caracter As Variant
+'    Dim Largo As Integer
+'
+'    On Error Resume Next
+'
+'    Texto = Me.txtStock.Value
+'    Largo = Len(Me.txtStock.Value)
+'    For i = 1 To Largo
+'        Caracter = Mid(Texto, i, 1)
+'        If Caracter <> "" Then
+'            If Caracter < Chr(48) Or Caracter > Chr(57) Then
+'                Me.txtStock.Value = Replace(Texto, Caracter, "")
+'            Else
+'            End If
+'        End If
+'    Next i
+'    On Error GoTo 0
+'    Caracter = 0
+'    Caracter1 = 0
+'End Sub
+'
+''aceptar sólo números
+'Private Sub txtPedir_change()
+'    Dim Texto As Variant
+'    Dim Caracter As Variant
+'    Dim Largo As Integer
+'
+'    On Error Resume Next
+'
+'    Texto = Me.txtPedir.Value
+'    Largo = Len(Me.txtPedir.Value)
+'    For i = 1 To Largo
+'        Caracter = Mid(Texto, i, 1)
+'        If Caracter <> "" Then
+'            If Caracter < Chr(48) Or Caracter > Chr(57) Then
+'                Me.txtPedir.Value = Replace(Texto, Caracter, "")
+'            Else
+'            End If
+'        End If
+'    Next i
+'    On Error GoTo 0
+'    Caracter = 0
+'    Caracter1 = 0
+'End Sub
 
 'GENERAR NVA VALIDACION PARA EVITAR QUE SE DUPLIQUEN PRODUCTOS
 'VALIDAR LLAVE PROVEEDOR, PRODUCTO, COLOR, MEDIDA
@@ -419,9 +412,9 @@ Private Sub cmdGuardar_Click()
             .Fields("iva") = CDbl(txtIva / 100)
             .Fields("venta_iva") = CCur(txtVentaIva)
             .Fields("categoria") = cboCategoria
-            .Fields("disponible") = CInt(txtDisponible)
-            .Fields("stock") = CInt(txtStock)
-            .Fields("pedir") = CInt(txtPedir)
+            '.Fields("disponible") = CInt(txtDisponible)
+            '.Fields("stock") = CInt(txtStock)
+            '.Fields("pedir") = CInt(txtPedir)
         End With
     
         Rs.Update

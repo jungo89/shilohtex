@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConsultarCliente_17 
-   Caption         =   "Consultar cliente"
+   Caption         =   "Consultar Cliente"
    ClientHeight    =   8565.001
    ClientLeft      =   120
    ClientTop       =   465

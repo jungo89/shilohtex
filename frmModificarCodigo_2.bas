@@ -1,17 +1,3 @@
-VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmModificarCodigo_2 
-   Caption         =   "Modificar C骴igo"
-   ClientHeight    =   8325.001
-   ClientLeft      =   720
-   ClientTop       =   2460
-   ClientWidth     =   5370
-   OleObjectBlob   =   "frmModificarCodigo_2.frx":0000
-End
-Attribute VB_Name = "frmModificarCodigo_2"
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
 'inicializar controles del formulario al cargar
 '----------------------------------------------------------------------------------------------
 
@@ -148,7 +134,7 @@ Private Sub txtMedida_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
-'Validar entradas para permitir ingreso de s髄o caracteres o n鷐eros dependiendo del tipo de campo
+'Validar entradas para permitir ingreso de s贸lo caracteres o n煤meros dependiendo del tipo de campo
 
 Private Sub txtCantidad_Exit(ByVal Cancel As MSForms.ReturnBoolean)
 On Error Resume Next
@@ -167,7 +153,7 @@ Private Sub txtCantidad_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
-'aceptar s髄o n鷐eros incluida coma para decimales
+'aceptar s贸lo n煤meros incluida coma para decimales
 
 Private Sub txtCosto_Change()
     Me.txtCosto.BackColor = &HFFFFFF
@@ -213,7 +199,7 @@ Private Sub txtCosto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
-'aceptar s髄o n鷐eros incluida coma para decimales
+'aceptar s贸lo n煤meros incluida coma para decimales
 
 Private Sub txtUtilidad_Change()
     Me.txtCosto.BackColor = &HFFFFFF
@@ -244,7 +230,7 @@ Private Sub txtUtilidad_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
 End Sub
 
 
-'aceptar s髄o n鷐eros incluida coma para decimales
+'aceptar s贸lo n煤meros incluida coma para decimales
 
 Private Sub txtVenta_Change()
     Me.txtVenta.BackColor = &HFFFFFF
@@ -265,7 +251,7 @@ Private Sub txtVenta_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     End If
 End Sub
 
-'aceptar s髄o n鷐eros incluida coma para decimales
+'aceptar s贸lo n煤meros incluida coma para decimales
 
 Private Sub txtIva_Change()
     Me.txtIva.BackColor = &HFFFFFF
@@ -295,7 +281,7 @@ Private Sub txtIva_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
 End Sub
 
 
-'aceptar s髄o n鷐eros incluida coma para decimales
+'aceptar s贸lo n煤meros incluida coma para decimales
 
 Private Sub txtVentaIva_Change()
     Me.txtVentaIva.BackColor = &HFFFFFF

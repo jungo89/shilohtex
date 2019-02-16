@@ -2,7 +2,8 @@
 	<ribbon startFromScratch="true">
 		<tabs>
 			<tab id="Tab1" label="Gestor de Inventarios ">
-                <group id="Group1" label=" ">
+                
+				<group id="Group1" label=" ">
                     <menu id="MyDropdownMenu1" label="Productos" screentip="Productos" supertip="Descripción del formulario" >
             			<button id="Button1" label="Crear Código" screentip="Crear Código" supertip="Descripción del formulario" onAction="Boton1" getEnabled="Ribbon.RetornoDelBoton1"/>
 						<button id="Button2" label="Modificar Código" screentip="Modificar Código" supertip="Descripción del formulario" onAction="Boton2" getEnabled="Ribbon.RetornoDelBoton2"/>
@@ -21,6 +22,7 @@
 					    </menu>					
 					</menu>
 				</group>
+
 
                 <group id="Group3" label=" ">
                     <menu id="MyDropdownMenu4" label="Salidas" screentip="Salidas" supertip="Descripción del formulario" >
