@@ -237,7 +237,7 @@ Public Sub CopiarProductos()
     End With
     
     'traer datos del producto para verificar
-    Query = "SELECT * FROM productos"
+    Query = "SELECT * FROM productos ORDER BY id ASC"
 
     Set Rs = New ADODB.Recordset
     Rs.CursorLocation = adUseServer
