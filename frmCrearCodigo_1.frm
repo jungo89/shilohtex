@@ -15,19 +15,25 @@ Attribute VB_Exposed = False
 'inicializar controles del formulario al cargar
 '----------------------------------------------------------------------------------------------
 
+Private Sub cboColor_Change()
+    validarDuplicado
+    'MsgBox ("validando")
+End Sub
+
 Private Sub UserForm_Initialize()
 
 'Poblar combo proveedor
     Dim Fila As Integer
     Dim Final As Integer
  
-    With Hoja4 'proveedores
+        
+    With Hoja6 'contacto_proveedor
        
-    Final = GetUltimoR(Hoja4)
+    Final = GetUltimoR(Hoja6)
 
         For Fila = 2 To Final
-            If .Cells(Fila, 2) <> "" Then
-                Me.cboProveedor.AddItem (.Cells(Fila, 2))
+            If .Cells(Fila, 3) <> "" Then
+                Me.cboProveedor.AddItem (.Cells(Fila, 3))
             End If
         Next
 
@@ -309,7 +315,7 @@ Private Sub cmdGuardar_Click()
         End If
     Next
     
-      
+         
         
     If MsgBox("Son correctos los datos?" + Chr(13) + "Desea proceder?", vbOKCancel, Titulo) = vbOK Then
                 
@@ -400,6 +406,8 @@ End Sub
 
 Private Sub LimpiarControles()
     Dim xTextBox As Control
+    Dim xComboBox As Control
+    
         
         For Each xTextBox In Controls
             If xTextBox.Name Like "txt*" Then
@@ -407,12 +415,36 @@ Private Sub LimpiarControles()
                 Me.txtProducto.SetFocus
             End If
         Next
+
+        For Each xComboBox In Controls
+            If xComboBox.Name Like "cbo*" Then
+                xComboBox = Empty
+                Me.txtProducto.SetFocus
+            End If
+        Next
         
-        Me.cboProveedor = Empty
-        Me.cboColor = Empty
-        Me.cboMedida = Empty
-        Me.cboPresentacion = Empty
-        Me.cboCategoria = Empty
+End Sub
+
+Private Sub validarDuplicado()
+
+'Determina el final del listado de Productos
+        Final = GetNuevoR(Hoja2)
+        
+        'Validación para impedir productos repetidos
+        For Fila = 2 To Final
+            If Hoja2.Cells(Fila, 17) = (Me.cboProveedor.Text) And _
+               Hoja2.Cells(Fila, 3) = (Me.txtProducto.Text) And _
+               Hoja2.Cells(Fila, 4) = (Me.cboColor.Text) And _
+               Hoja2.Cells(Fila, 6) = (Me.txtCantidad.Text) And _
+               Hoja2.Cells(Fila, 7) = (Me.cboPresentacion.Text) _
+            Then
+                MsgBox ("Producto ya existe en la Base de Datos"), , Titulo
+                'LimpiarControles
+                Me.cboProveedor.SetFocus
+                Exit Sub
+                Exit For
+            End If
+        Next
 
 End Sub
 

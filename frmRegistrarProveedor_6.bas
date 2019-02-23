@@ -1,11 +1,43 @@
+'inicializar controles del formulario al cargar
+'----------------------------------------------------------------------------------------------
+
+Private Sub UserForm_Initialize()
+
+'Poblar combo ciudades
+    Dim Fila As Integer
+    Dim Final As Integer
+ 
+    With Hoja23 'ciudades
+       
+    Final = GetUltimoR(Hoja23)
+
+        For Fila = 2 To Final
+            If .Cells(Fila, 4) <> "" Then
+                Me.cboCiudad.AddItem (.Cells(Fila, 4))
+            End If
+        Next
+
+    End With
+    
+    
+'poblar combo TipoDocumento
+    Me.cboTipoDocumento.AddItem "NIT"
+    Me.cboTipoDocumento.AddItem "CEDULA DE CIUDADANIA"
+
+'poblar combo FormaPago
+    Me.cboFormaPago.AddItem "CONTADO"
+    Me.cboFormaPago.AddItem "CREDITO"
+    
+End Sub
+
 'Convertir entrada de campos texto a mayúsculas
 
 
-Private Sub txtNombre_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+Private Sub txtRazonSocial_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
-Private Sub txtRazonSocial_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+Private Sub txtNombreContacto_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
@@ -20,30 +52,6 @@ End Sub
 
 
 'Validar entradas para permitir ingreso de sólo caracteres o números dependiendo del tipo de campo
-
-'aceptar sólo números
-Private Sub txtTelefono_Change()
-    Dim Texto As Variant
-    Dim Caracter As Variant
-    Dim Largo As Integer
-    
-    On Error Resume Next
-    
-    Texto = Me.txtTelefono.Value
-    Largo = Len(Me.txtTelefono.Value)
-    For i = 1 To Largo
-        Caracter = Mid(Texto, i, 1)
-        If Caracter <> "" Then
-            If Caracter < Chr(48) Or Caracter > Chr(57) Then
-                Me.txtTelefono.Value = Replace(Texto, Caracter, "")
-            Else
-            End If
-        End If
-    Next i
-    On Error GoTo 0
-    Caracter = 0
-    Caracter1 = 0
-End Sub
 
 'aceptar sólo números
 Private Sub txtDocumento_change()
@@ -72,53 +80,69 @@ Private Sub txtDocumento_change()
 End Sub
 
 
-Private Sub txtNombre_AfterUpdate()
+Private Sub txtCelular_Change()
+    Dim Texto As Variant
+    Dim Caracter As Variant
+    Dim Largo As Integer
+    
+    On Error Resume Next
+    
+    Texto = Me.txtCelular.Value
+    Largo = Len(Me.txtCelular.Value)
+    For i = 1 To Largo
+        Caracter = Mid(Texto, i, 1)
+        If Caracter <> "" Then
+            If Caracter < Chr(48) Or Caracter > Chr(57) Then
+                Me.txtCelular.Value = Replace(Texto, Caracter, "")
+            Else
+            End If
+        End If
+    Next i
+    On Error GoTo 0
+    Caracter = 0
+    Caracter1 = 0
+End Sub
+
+
+Private Sub txtTelefono_Change()
+    Dim Texto As Variant
+    Dim Caracter As Variant
+    Dim Largo As Integer
+    
+    On Error Resume Next
+    
+    Texto = Me.txtTelefono.Value
+    Largo = Len(Me.txtTelefono.Value)
+    For i = 1 To Largo
+        Caracter = Mid(Texto, i, 1)
+        If Caracter <> "" Then
+            If Caracter < Chr(48) Or Caracter > Chr(57) Then
+                Me.txtTelefono.Value = Replace(Texto, Caracter, "")
+            Else
+            End If
+        End If
+    Next i
+    On Error GoTo 0
+    Caracter = 0
+    Caracter1 = 0
+End Sub
+
+
+Private Sub txtNombreContacto_AfterUpdate()
 'Determina el final del listado de proveedores
-        Final = GetNuevoR(Hoja4)
+        Final = GetNuevoR(Hoja6)
         
         'Validación para impedir Clientes repetidos
         For Fila = 2 To Final
-            If Me.txtNombre.Text <> "" And UCase(Hoja4.Cells(Fila, 2)) = UCase(Me.txtNombre.Text) Then
+            If Me.txtNombreContacto.Text <> "" And UCase(Hoja6.Cells(Fila, 3)) = UCase(Me.txtNombreContacto.Text) Then
                 MsgBox ("Proveedor ya existe en la Base de Datos"), , Titulo
                 LimpiarControles
-                Me.txtNombre.SetFocus
+                Me.txtNombreContacto.SetFocus
                 Exit Sub
                 Exit For
             End If
         Next
 End Sub
-
-
-Private Sub UserForm_Initialize()
-
-'Poblar combo ciudades
-    Dim Fila As Integer
-    Dim Final As Integer
- 
-    With Hoja23 'ciudades
-       
-    Final = GetUltimoR(Hoja23)
-
-        For Fila = 2 To Final
-            If .Cells(Fila, 4) <> "" Then
-                Me.cboCiudad.AddItem (.Cells(Fila, 4))
-            End If
-        Next
-
-    End With
-    
-    
-'poblar combo TipoDocumento
-    Me.cboTipoDocumento.AddItem "PERSONA JURIDICA"
-    Me.cboTipoDocumento.AddItem "PERSONA NATURAL"
-    Me.cboTipoDocumento.AddItem "REGIMEN SIMPLIFICADO"
-
-'poblar combo FormaPago
-    Me.cboFormaPago.AddItem "CONTADO"
-    Me.cboFormaPago.AddItem "CREDITO"
-    
-End Sub
-
 
 Private Sub cmdGuardar_Click()
 
@@ -134,6 +158,8 @@ Private Sub cmdGuardar_Click()
     
     Titulo = "Proveedores"
     
+    'Validar txtbox vacios
+    
     For Each xTextBox In Controls
         If xTextBox.Name Like "txt*" And xTextBox = Empty Then
             MsgBox "Debe completar todos los campos", , Titulo
@@ -142,6 +168,15 @@ Private Sub cmdGuardar_Click()
         End If
     Next
     
+    'validar combobox vacios
+    
+    For Each xComboBox In Controls
+        If xComboBox.Name Like "cbo*" And xComboBox = Empty Then
+            MsgBox "Debe completar todos los campos", , Titulo
+            xComboBox.SetFocus
+            Exit Sub
+        End If
+    Next
       
         
     If MsgBox("Son correctos los datos?" + Chr(13) + "Desea proceder?", vbOKCancel, Titulo) = vbOK Then
@@ -171,11 +206,9 @@ Private Sub cmdGuardar_Click()
         'Cargar los datos a tabla proveedores
         With Rs
             .AddNew
-            .Fields("nombre") = txtNombre
             .Fields("tipo_documento") = cboTipoDocumento
             .Fields("documento") = txtDocumento
             .Fields("razon_social") = txtRazonSocial
-            .Fields("nit") = txtNit
             .Fields("forma_pago") = cboFormaPago
         End With
     
@@ -183,7 +216,7 @@ Private Sub cmdGuardar_Click()
         Rs.Close
     
         'determinar el id del registro que se graba
-        Query = "SELECT id FROM proveedores WHERE nombre LIKE '%" & Me.txtNombre.Value & "%'"
+        Query = "SELECT id FROM proveedores WHERE razon_social LIKE '%" & Me.txtRazonSocial.Value & "%'"
         'Query = "SELECT id FROM proveedores WHERE nombre = '" & Me.txtNombre.Value & "'"
     
         Set Rs = New ADODB.Recordset
@@ -213,6 +246,8 @@ Private Sub cmdGuardar_Click()
         With Rs
             .AddNew
             .Fields("id_proveedor") = Sheets("contadores").Range("B2").Value
+            .Fields("nombre_contacto") = txtNombreContacto
+            .Fields("celular") = txtCelular
             .Fields("telefono") = txtTelefono
             .Fields("direccion") = txtDireccion
             .Fields("correo") = txtCorreo
@@ -230,6 +265,7 @@ Private Sub cmdGuardar_Click()
         Set Conn = Nothing
     
         MsgBox "Alta exitosa", vbInformation
+        
         
         'Limpia los controles
         LimpiarControles
@@ -249,18 +285,23 @@ End Sub
 
 Private Sub LimpiarControles()
     Dim xTextBox As Control
+    Dim xComboBox As Control
+    
         
         For Each xTextBox In Controls
             If xTextBox.Name Like "txt*" Then
                 xTextBox = Empty
-                Me.txtNombre.SetFocus
+                Me.cboTipoDocumento.SetFocus
+            End If
+        Next
+
+        For Each xComboBox In Controls
+            If xComboBox.Name Like "cbo*" Then
+                xComboBox = Empty
+                Me.cboTipoDocumento.SetFocus
             End If
         Next
         
-        Me.cboCiudad = Empty
-        Me.cboTipoDocumento = Empty
-        Me.cboFormaPago = Empty
-
 End Sub
 
 

@@ -21,13 +21,13 @@ Private Sub UserForm_Initialize()
     Dim Final As Integer
  
         
-    With Hoja4 'proveedores
+    With Hoja6 'contacto_proveedor
        
-    Final = GetUltimoR(Hoja4)
+    Final = GetUltimoR(Hoja6)
 
         For Fila = 2 To Final
-            If .Cells(Fila, 2) <> "" Then
-                Me.cboProveedor.AddItem (.Cells(Fila, 2))
+            If .Cells(Fila, 3) <> "" Then
+                Me.cboProveedor.AddItem (.Cells(Fila, 3))
             End If
         Next
 
@@ -128,9 +128,9 @@ Private Sub cboColor_Change()
                 Me.txtCantidad = .Cells(Fila, 6)
                 Me.txtMedida = .Cells(Fila, 5)
                 Me.txtCosto = .Cells(Fila, 8)
-                Me.txtUtilidad = CDbl(.Cells(Fila, 9) * 100)
+                Me.txtUtilidad = (.Cells(Fila, 9) * 100)
                 Me.txtVenta = .Cells(Fila, 10)
-                Me.txtIva = CDbl(.Cells(Fila, 11) * 100)
+                Me.txtIva = (.Cells(Fila, 11) * 100)
                 Me.txtVentaIva = .Cells(Fila, 12)
             End If
         Next
@@ -333,6 +333,11 @@ Private Sub cmdGuardar_Click()
     Dim Final As Integer
     Dim id As Integer
     Dim costo As Currency
+    Dim utilidad As Double
+    Dim venta As Currency
+    Dim iva As Double
+    Dim ventaIva As Currency
+    
     
     Dim Conn As ADODB.Connection
     Dim MiConexion
@@ -351,23 +356,23 @@ Private Sub cmdGuardar_Click()
                 Hoja2.Cells(Fila, 3) = (Me.cboProducto.Text) And _
                 Hoja2.Cells(Fila, 4) = (Me.cboColor.Text) _
             Then
-                MsgBox (Hoja2.Cells(Fila, 17))
-                MsgBox (Hoja2.Cells(Fila, 3))
-                MsgBox (Hoja2.Cells(Fila, 4))
-                MsgBox (Hoja2.Cells(Fila, 6))
-                MsgBox (Hoja2.Cells(Fila, 7))
+                
                 
                 id = CInt(.Cells(Fila, 1).Value)
+                
                 costo = CCur(Me.txtCosto)
+                utilidad = (Me.txtUtilidad / 100)
+                venta = CCur(Me.txtVenta)
+                iva = (Me.txtIva / 100)
+                ventaIva = CCur(Me.txtVentaIva)
+               
+             
                 Exit For
             End If
         Next
     
     End With
        
-    MsgBox (id)
-    
-    MsgBox (Me.txtCosto)
     
     On Error GoTo Salir
 
@@ -385,8 +390,9 @@ Private Sub cmdGuardar_Click()
             .Provider = "Microsoft.ACE.OLEDB.12.0"
             .Open MiConexion
         End With
-
-       Query = "UPDATE productos SET costo = " & costo & " WHERE id = 3248"
+              
+       Query = "UPDATE productos SET costo = '" & costo & "', utilidad = '" & utilidad & "', venta = '" & venta & "', iva = '" & iva & "', venta_iva = '" & ventaIva & "' WHERE id = " & id & ""
+       
        Conn.Execute Query
 
        Conn.Close

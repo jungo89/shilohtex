@@ -12,13 +12,14 @@ Private Sub UserForm_Initialize()
     Dim Fila As Integer
     Dim Final As Integer
  
-    With Hoja4 'proveedores
+        
+    With Hoja6 'contacto_proveedor
        
-    Final = GetUltimoR(Hoja4)
+    Final = GetUltimoR(Hoja6)
 
         For Fila = 2 To Final
-            If .Cells(Fila, 2) <> "" Then
-                Me.cboProveedor.AddItem (.Cells(Fila, 2))
+            If .Cells(Fila, 3) <> "" Then
+                Me.cboProveedor.AddItem (.Cells(Fila, 3))
             End If
         Next
 
