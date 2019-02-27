@@ -21,14 +21,6 @@ Dim i As Long
 'Dim sTotal As Currency
 
 
-Private Sub fraDatosPago_Click()
-
-End Sub
-
-Private Sub fraDatosProducto_Click()
-
-End Sub
-
 Private Sub lblEliminarItem_Click()
     EliminarItem
 End Sub

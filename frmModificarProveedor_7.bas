@@ -1,18 +1,3 @@
-VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmModificarProveedor_7 
-   Caption         =   "Modificar Proveedor"
-   ClientHeight    =   6660
-   ClientLeft      =   120
-   ClientTop       =   465
-   ClientWidth     =   8040
-   OleObjectBlob   =   "frmModificarProveedor_7.frx":0000
-   StartUpPosition =   1  'Centrar en propietario
-End
-Attribute VB_Name = "frmModificarProveedor_7"
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
 'inicializar controles del formulario al cargar
 '----------------------------------------------------------------------------------------------
 
@@ -74,7 +59,7 @@ Private Sub UserForm_Initialize()
    
 End Sub
 
-'Convertir entrada de campos texto a mayúsculas
+'Convertir entrada de campos texto a mayÃºsculas
 
 
 Private Sub txtRazonSocial_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
@@ -94,7 +79,7 @@ Private Sub txtBarrio_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
 End Sub
 
 
-'aceptar sólo números
+'aceptar sÃ³lo nÃºmeros
 Private Sub txtDocumento_change()
     Dim Texto As Variant
     Dim Caracter As Variant
@@ -301,7 +286,7 @@ Private Sub cmdGuardar_Click()
 
        Conn.Close
 
-        MsgBox "Modificación exitosa", vbInformation
+        MsgBox "ModificaciÃ³n exitosa", vbInformation
 
         'Limpia los controles
         LimpiarControles

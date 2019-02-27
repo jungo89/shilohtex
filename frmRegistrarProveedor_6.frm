@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmRegistrarProveedor_6 
    Caption         =   "Registrar Proveedor"
-   ClientHeight    =   8445.001
+   ClientHeight    =   8475.001
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   7725
+   ClientWidth     =   7755
    OleObjectBlob   =   "frmRegistrarProveedor_6.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End
@@ -34,6 +34,20 @@ Private Sub UserForm_Initialize()
 
     End With
     
+'poblar combo TipoContribuyente
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. COMUN"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. SIMPLIFICADO"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL O JURIDICA LEY 1429"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. COMUN AGENTE AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "PERSONA JURIDICA"
+    Me.cboTipoContribuyente.AddItem "PERSONA JURIDICA AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE NO AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "ENTIDADES SIN ANIMO DE LUCRO"
+    Me.cboTipoContribuyente.AddItem "INSTITUCIONES DEL ESTADO PUBLICOS Y OTROS"
+    Me.cboTipoContribuyente.AddItem "PROVEEDOR SOCIEDADES DE CCIO. INTERNACIONAL"
+    Me.cboTipoContribuyente.AddItem "TERCERO DEL EXTERIOR"
     
 'poblar combo TipoDocumento
     Me.cboTipoDocumento.AddItem "NIT"
@@ -67,8 +81,6 @@ End Sub
 
 
 'Validar entradas para permitir ingreso de sólo caracteres o números dependiendo del tipo de campo
-
-'aceptar sólo números
 
 'aceptar sólo números
 Private Sub txtDocumento_change()
@@ -175,6 +187,8 @@ Private Sub cmdGuardar_Click()
     
     Titulo = "Proveedores"
     
+    'Validar txtbox vacios
+    
     For Each xTextBox In Controls
         If xTextBox.Name Like "txt*" And xTextBox = Empty Then
             MsgBox "Debe completar todos los campos", , Titulo
@@ -183,6 +197,15 @@ Private Sub cmdGuardar_Click()
         End If
     Next
     
+    'validar combobox vacios
+    
+    For Each xComboBox In Controls
+        If xComboBox.Name Like "cbo*" And xComboBox = Empty Then
+            MsgBox "Debe completar todos los campos", , Titulo
+            xComboBox.SetFocus
+            Exit Sub
+        End If
+    Next
       
         
     If MsgBox("Son correctos los datos?" + Chr(13) + "Desea proceder?", vbOKCancel, Titulo) = vbOK Then
@@ -216,6 +239,7 @@ Private Sub cmdGuardar_Click()
             .Fields("documento") = txtDocumento
             .Fields("razon_social") = txtRazonSocial
             .Fields("forma_pago") = cboFormaPago
+            .Fields("tipo_contribuyente") = cboTipoContribuyente
         End With
     
         Rs.Update
@@ -271,6 +295,7 @@ Private Sub cmdGuardar_Click()
         Set Conn = Nothing
     
         MsgBox "Alta exitosa", vbInformation
+        
         
         'Limpia los controles
         LimpiarControles

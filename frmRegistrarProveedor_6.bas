@@ -19,6 +19,20 @@ Private Sub UserForm_Initialize()
 
     End With
     
+'poblar combo TipoContribuyente
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. COMUN"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. SIMPLIFICADO"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL O JURIDICA LEY 1429"
+    Me.cboTipoContribuyente.AddItem "PERSONA NATURAL REG. COMUN AGENTE AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "PERSONA JURIDICA"
+    Me.cboTipoContribuyente.AddItem "PERSONA JURIDICA AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "GRAN CONTRIBUYENTE NO AUTORETENEDOR"
+    Me.cboTipoContribuyente.AddItem "ENTIDADES SIN ANIMO DE LUCRO"
+    Me.cboTipoContribuyente.AddItem "INSTITUCIONES DEL ESTADO PUBLICOS Y OTROS"
+    Me.cboTipoContribuyente.AddItem "PROVEEDOR SOCIEDADES DE CCIO. INTERNACIONAL"
+    Me.cboTipoContribuyente.AddItem "TERCERO DEL EXTERIOR"
     
 'poblar combo TipoDocumento
     Me.cboTipoDocumento.AddItem "NIT"
@@ -210,6 +224,7 @@ Private Sub cmdGuardar_Click()
             .Fields("documento") = txtDocumento
             .Fields("razon_social") = txtRazonSocial
             .Fields("forma_pago") = cboFormaPago
+            .Fields("tipo_contribuyente") = cboTipoContribuyente
         End With
     
         Rs.Update
