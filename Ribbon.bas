@@ -1,13 +1,29 @@
+Attribute VB_Name = "Ribbon"
 Option Explicit
 Option Base 1
 Public Cinta As IRibbonUI
 Public RetVal(44) As Boolean
 
-#If VBA7 And Win64 Then
-    Private Declare PtrSafe Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As LongPtr, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As LongPtr
-#Else
-    Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
-#End If
+'Private Declare PtrSafe Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As LongPtr, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As LongPtr
+
+'#If VBA7 And Win64 Then
+'    Private Declare PtrSafe Function ShellExecuteA Lib "Shell32.dll" _
+'        (ByVal hwnd As Long, _
+'        ByVal lpOperation As String, _
+'        ByVal lpFile As String, _
+'       ByVal lpParameters As String, _
+'        ByVal lpDirectory As String, _
+'        ByVal nShowCmd As Long) As Long
+'#Else
+'
+'    Private Declare Function ShellExecuteA Lib "Shell32.dll" _
+'        (ByVal hwnd As Long, _
+'        ByVal lpOperation As String, _
+'        ByVal lpFile As String, _
+'        ByVal lpParameters As String, _
+'        ByVal lpDirectory As String, _
+'        ByVal nShowCmd As Long) As Long
+'#End If
 
 
 Sub CargarCinta(CintaDeExcel As IRibbonUI)
@@ -223,8 +239,7 @@ Sub Boton41(control As IRibbonControl)
 End Sub
 
 Sub Boton42(control As IRibbonControl)
-    'ThisWorkbook.Save
-    MsgBox ("Boton 42")
+    ThisWorkbook.Save
 End Sub
 
 Sub Boton43(control As IRibbonControl)
@@ -253,7 +268,7 @@ Sub Boton43(control As IRibbonControl)
 '
 '            Application.ActiveWorkbook.SaveCopyAs FileName:=sRutaDestino & sSeparador & sBackUp
 '
-'            MsgBox "La copia se guardÃ³ en la siguiente ruta: " & sRutaDestino & sSeparador _
+'            MsgBox "La copia se guardó en la siguiente ruta: " & sRutaDestino & sSeparador _
 '            & sBackUp, vbInformation, "Gestor de Inventarios"
 '
 '        Else
@@ -262,12 +277,11 @@ Sub Boton43(control As IRibbonControl)
 
 'frm.Show
     MsgBox ("Boton 43")
-    
+
 End Sub
 
 Sub Boton44(control As IRibbonControl)
     'frm_Login.Show
-    MsgBox ("Boton 44")
 End Sub
 
 
@@ -452,4 +466,10 @@ End Sub
 Sub RetornoDelBoton44(control As IRibbonControl, ByRef ValorDevuelto)
     ValorDevuelto = RetVal(44)
 End Sub
+
+
+
+
+
+
 

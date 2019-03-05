@@ -9,7 +9,9 @@
 
 Option Explicit
 Option Base 1
+
 Private Sub btn_Ingresar_Click()
+
 Dim Usuario As String
 Dim Fila, Final As Long
 Dim password As String, UsuarioEncontrado As String, yaExiste As Byte, Status As String
@@ -110,12 +112,7 @@ If Me.txtUsuario.Text = "" Or Me.txtPassword.Text = "" Then
                 For j = 1 To 44
                     vBoton(j) = Hoja26.Range(UsuarioEncontrado).Offset(0, j+3).Value        
                 Next j
-                
-                
-                
-                
-    
-    
+
             If Hoja26.Range(UsuarioEncontrado).Value = Me.txtUsuario.Text And password = Me.txtPassword.Text Then
             
 '                        'Validando los permisos y restricciones en las hojas de cálculo
@@ -195,12 +192,12 @@ Salir:
  End If
 
 End Sub
+
 Private Sub btn_Salir_Click()
-    ThisWorkbook.Application.DisplayAlerts = False
+    ThisWorkbook.Application.DisplayAlerts = false
     Application.ActiveWorkbook.Close
     Unload Me
 End Sub
-
 
 
 Private Sub UserForm_Activate()
@@ -248,6 +245,7 @@ End Sub
 Private Sub UserForm_Initialize()
 'Hoja1.txt_UsuarioActual.Text = Empty
 End Sub
+
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     If CloseMode = 0 Then
         ThisWorkbook.Application.DisplayAlerts = False

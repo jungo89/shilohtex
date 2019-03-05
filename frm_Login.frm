@@ -14,8 +14,10 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+
 Option Explicit
 Option Base 1
+
 Private Sub btn_Ingresar_Click()
 Dim Usuario As String
 Dim Fila, Final As Long
@@ -24,19 +26,20 @@ Dim Rango As Range
 Dim Titulo As String
 Dim Hoja As Worksheet
 Dim vHoja(13) As String
-Dim vBoton(18) As String
+Dim vBoton(44) As String
 Dim i As Byte
+Dim j As Byte
 Dim x As Byte
 
 On Error GoTo Salir
 
 Application.ScreenUpdating = False
 
-Titulo = "Gestor de Inventarios"
+Titulo = "Gestor de Inventarios ShilohTex"
 
 
-yaExiste = Application.WorksheetFunction.CountIf(Hoja6.Range("tbl_Usuario[Usuario]"), Me.txtUsuario.Text)
-Set Rango = Hoja6.Range("tbl_Usuario[Usuario]")
+yaExiste = Application.WorksheetFunction.CountIf(Hoja26.Range("tbl_Usuario[Usuario]"), Me.txtUsuario.Text)
+Set Rango = Hoja26.Range("tbl_Usuario[Usuario]")
 
 If Me.txtUsuario.Text = "" Or Me.txtPassword.Text = "" Then
     MsgBox "Introduce usuario y contraseña", vbExclamation, Titulo
@@ -49,65 +52,53 @@ If Me.txtUsuario.Text = "" Or Me.txtPassword.Text = "" Then
                 UsuarioEncontrado = Rango.Find(What:=Me.txtUsuario.Text, after:=Rango.Range("A1"), _
                                                 LookAt:=xlWhole, MatchCase:=False).Address
                 
-                password = Hoja6.Range(UsuarioEncontrado).Offset(0, 1).Value
-                Status = Hoja6.Range(UsuarioEncontrado).Offset(0, 2).Value
+                password = Hoja26.Range(UsuarioEncontrado).Offset(0, 1).Value
+                Status = Hoja26.Range(UsuarioEncontrado).Offset(0, 2).Value
                 
-                'Permisos y restricciones
-                vHoja(2) = Hoja6.Range(UsuarioEncontrado).Offset(0, 3).Value
-                vHoja(3) = Hoja6.Range(UsuarioEncontrado).Offset(0, 4).Value
-                vHoja(4) = Hoja6.Range(UsuarioEncontrado).Offset(0, 5).Value
-                vHoja(5) = Hoja6.Range(UsuarioEncontrado).Offset(0, 6).Value
-                vHoja(6) = Hoja6.Range(UsuarioEncontrado).Offset(0, 7).Value
-                vHoja(7) = Hoja6.Range(UsuarioEncontrado).Offset(0, 8).Value
-                vHoja(8) = Hoja6.Range(UsuarioEncontrado).Offset(0, 9).Value
-                vHoja(9) = Hoja6.Range(UsuarioEncontrado).Offset(0, 10).Value
-                vHoja(10) = Hoja6.Range(UsuarioEncontrado).Offset(0, 11).Value
-                vHoja(11) = Hoja6.Range(UsuarioEncontrado).Offset(0, 12).Value
-                vHoja(12) = Hoja6.Range(UsuarioEncontrado).Offset(0, 13).Value
-                vHoja(13) = Hoja6.Range(UsuarioEncontrado).Offset(0, 14).Value
+'                'Permisos y restricciones hojas
+'                vHoja(2) = Hoja6.Range(UsuarioEncontrado).Offset(0, 3).Value
+'                vHoja(3) = Hoja6.Range(UsuarioEncontrado).Offset(0, 4).Value
+'                vHoja(4) = Hoja6.Range(UsuarioEncontrado).Offset(0, 5).Value
+'                vHoja(5) = Hoja6.Range(UsuarioEncontrado).Offset(0, 6).Value
+'                vHoja(6) = Hoja6.Range(UsuarioEncontrado).Offset(0, 7).Value
+'                vHoja(7) = Hoja6.Range(UsuarioEncontrado).Offset(0, 8).Value
+'                vHoja(8) = Hoja6.Range(UsuarioEncontrado).Offset(0, 9).Value
+'                vHoja(9) = Hoja6.Range(UsuarioEncontrado).Offset(0, 10).Value
+'                vHoja(10) = Hoja6.Range(UsuarioEncontrado).Offset(0, 11).Value
+'                vHoja(11) = Hoja6.Range(UsuarioEncontrado).Offset(0, 12).Value
+'                vHoja(12) = Hoja6.Range(UsuarioEncontrado).Offset(0, 13).Value
+'                vHoja(13) = Hoja6.Range(UsuarioEncontrado).Offset(0, 14).Value
                 
-                vBoton(1) = Hoja6.Range(UsuarioEncontrado).Offset(0, 15).Value
-                vBoton(2) = Hoja6.Range(UsuarioEncontrado).Offset(0, 16).Value
-                vBoton(3) = Hoja6.Range(UsuarioEncontrado).Offset(0, 17).Value
-                vBoton(4) = Hoja6.Range(UsuarioEncontrado).Offset(0, 18).Value
-                vBoton(5) = Hoja6.Range(UsuarioEncontrado).Offset(0, 19).Value
-                vBoton(6) = Hoja6.Range(UsuarioEncontrado).Offset(0, 20).Value
-                vBoton(7) = Hoja6.Range(UsuarioEncontrado).Offset(0, 21).Value
-                vBoton(8) = Hoja6.Range(UsuarioEncontrado).Offset(0, 22).Value
-                vBoton(9) = Hoja6.Range(UsuarioEncontrado).Offset(0, 23).Value
-                vBoton(10) = Hoja6.Range(UsuarioEncontrado).Offset(0, 24).Value
-                vBoton(11) = Hoja6.Range(UsuarioEncontrado).Offset(0, 25).Value
-                vBoton(12) = Hoja6.Range(UsuarioEncontrado).Offset(0, 26).Value
-                vBoton(13) = Hoja6.Range(UsuarioEncontrado).Offset(0, 27).Value
-                vBoton(14) = Hoja6.Range(UsuarioEncontrado).Offset(0, 28).Value
-                vBoton(15) = Hoja6.Range(UsuarioEncontrado).Offset(0, 29).Value
-                vBoton(16) = Hoja6.Range(UsuarioEncontrado).Offset(0, 30).Value
-                vBoton(17) = Hoja6.Range(UsuarioEncontrado).Offset(0, 31).Value
-                vBoton(18) = Hoja6.Range(UsuarioEncontrado).Offset(0, 32).Value
+                'Permisos y restricciones botones
+
+
                 
-                
+                For j = 1 To 44
+                    vBoton(j) = Hoja26.Range(UsuarioEncontrado).Offset(0, j + 3).Value
+                Next j
+          
                 
     
     
-            If Hoja6.Range(UsuarioEncontrado).Value = Me.txtUsuario.Text And password = Me.txtPassword.Text Then
+            If Hoja26.Range(UsuarioEncontrado).Value = Me.txtUsuario.Text And password = Me.txtPassword.Text Then
             
-                        'Validando los permisos y restricciones en las hojas de cálculo
-                        For i = 2 To 13
-                            For Each Hoja In Worksheets
-                            If Hoja.CodeName = "Hoja" & i Then
-                                If vHoja(i) = False Then
-                                    Hoja.Visible = xlSheetVeryHidden
-                                Else
-                                    Hoja.Visible = xlSheetVisible
-                                End If
-                            End If
-                            Next Hoja
-                        Next i
+'                        'Validando los permisos y restricciones en las hojas de cálculo
+'                        For i = 2 To 13
+'                            For Each Hoja In Worksheets
+'                            If Hoja.CodeName = "Hoja" & i Then
+'                                If vHoja(i) = False Then
+'                                    Hoja.Visible = xlSheetVeryHidden
+'                                Else
+'                                    Hoja.Visible = xlSheetVisible
+'                                End If
+'                            End If
+'                            Next Hoja
+'                        Next i
                                         
                         
                         'Habilitar o deshabilitar botones en la Ribbon
                         
-                        For x = 1 To 18
+                        For x = 1 To 44
                         
                             If vBoton(x) = True Then
                                 RetVal(x) = True
@@ -121,40 +112,40 @@ If Me.txtUsuario.Text = "" Or Me.txtPassword.Text = "" Then
             
                           ' Registrar al usuario en la hoja Logs
                               
-                              Final = GetNuevoR(Hoja8)
-                                  Hoja8.Cells(Final, 1) = "=NOW()"
-                                  Hoja8.Cells(Final, 1).Copy
-                                  Hoja8.Cells(Final, 1).PasteSpecial Paste:=xlPasteValues
+                              Final = GetNuevoR(Hoja27)
+                                  Hoja27.Cells(Final, 1) = "=NOW()"
+                                  Hoja27.Cells(Final, 1).Copy
+                                  Hoja27.Cells(Final, 1).PasteSpecial Paste:=xlPasteValues
                                   Application.CutCopyMode = False
                                   
-                                  Hoja8.Cells(Final, 2) = Me.txtUsuario.Text
+                                  Hoja27.Cells(Final, 2) = Me.txtUsuario.Text
                                   
-                                  Hoja1.txt_UsuarioActual.Text = "Usuario actual: " & UCase(Me.txtUsuario.Text)
+                                  'Hoja1.txt_UsuarioActual.Text = "Usuario actual: " & UCase(Me.txtUsuario.Text)
                                   
-                                  Hoja8.Cells(Final, 3) = Status
+                                  Hoja27.Cells(Final, 3) = Status
                                   
                     
                                  
-                                  Hoja8.Range("G1") = Me.txtUsuario.Text
-                                  Hoja8.Range("H1") = Status
-                                  
-                                  
-                                '------------Configuración Regional--------------------
-                                    Call infoSeparadorDecimal
-   
-                                        If Hoja12.Range("C5") = "," Then
-                                             Formato_Europeo
-                                        Else
-                                             Formato_Americano
-                                        End If
-                                '------------------------------------------------------
+                                  Hoja27.Range("G1") = Me.txtUsuario.Text
+                                  Hoja27.Range("H1") = Status
+'
+'
+'                                '------------Configuración Regional--------------------
+'                                    Call infoSeparadorDecimal
+'
+'                                        If Hoja12.Range("C5") = "," Then
+'                                             Formato_Europeo
+'                                        Else
+'                                             Formato_Americano
+'                                        End If
+'                                '------------------------------------------------------
                                   
                                   ThisWorkbook.Save
                               
                               
                                   Unload Me
                                   Hoja1.Activate
-                                  Call CopiaSeguridad
+'                                  Call CopiaSeguridad
                         Else
                      MsgBox "La contraseña es incorrecta", vbExclamation, Titulo
             End If
@@ -168,15 +159,26 @@ Salir:
  End If
 
 End Sub
+
 Private Sub btn_Salir_Click()
+
+Dim Titulo As String
+
+Titulo = "Gestor de Inventarios ShilohTex"
+
+On Error GoTo Salir
     ThisWorkbook.Application.DisplayAlerts = False
     Application.ActiveWorkbook.Close
     Unload Me
+    
+Salir:
+ If Err <> 0 Then
+    MsgBox Err.Description, vbExclamation, Titulo
+ End If
+    
 End Sub
 
-Private Sub imgLogo_Click()
 
-End Sub
 
 Private Sub UserForm_Activate()
 Dim Conteo As Long
@@ -185,8 +187,6 @@ Dim nColumnas As Long
 Dim f As Long
 Dim c As Long
 Dim Porcentaje As Double
-
-
 
 imgLock.Visible = False
 frame_Lock.Visible = False
@@ -215,23 +215,36 @@ btn_Ingresar.Visible = True
 btn_Salir.Visible = True
 
 frame_ProgressBar.Visible = False
-imgLogo.Visible = False
+'imgLogo.Visible = False
 lbl_Titulo.Visible = False
-Me.Caption = "Gestor de Inventarios"
+Me.Caption = "Gestor de Inventarios ShilohTex"
 Me.Height = 140.25
 
 End Sub
 
 Private Sub UserForm_Initialize()
-Hoja1.txt_UsuarioActual.Text = Empty
+'Hoja1.txt_UsuarioActual.Text = Empty
 End Sub
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+
+Dim Titulo As String
+
+Titulo = "Gestor de Inventarios ShilohTex"
+
+On Error GoTo Salir
     If CloseMode = 0 Then
         ThisWorkbook.Application.DisplayAlerts = False
         Application.ActiveWorkbook.Close
         Unload Me
     End If
+    
+Salir:
+ If Err <> 0 Then
+    MsgBox Err.Description, vbExclamation, Titulo
+ End If
 End Sub
+
+
 
 
 
